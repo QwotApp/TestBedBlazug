@@ -1,0 +1,854 @@
+﻿.debug-window {
+    font-size: calc(100vw/25);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98%;
+    height: 92%;
+    /*background-color: red;*/
+    position: fixed;
+    margin: 0;
+    z-index: 5;
+    margin: .5% 1% .5% 1%;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/* DEBUG TOGGLE BUTTON */
+
+.debug-btn-container {
+    font-size: 1em;
+    line-height: 1em;
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.debug-btn {
+    font-size: 1em;
+    line-height: 1em;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    border: 5px solid rgba(192, 0, 0, .7);
+    pointer-events: auto;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.debug-btn > svg {
+    font-size: 1em;
+    line-height: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    margin: 0.7em;
+    transition-duration: 0.15s;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+}
+
+.debug-btn:hover > svg {
+    transform: scale(1.2);
+}
+
+.debug-btn:not(hover) > svg {
+    transform: scale(1.0);
+}
+
+.debug-btn > svg > path {
+    fill: orangered;
+}
+
+
+.debug-btn:active > svg > path {
+    fill-opacity: 0.6;
+}
+
+/* INSPECTOR */
+
+
+.debug-inspector {
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 0.3em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 5em;
+    padding-top: .3em;
+    margin: 1em 0em 1em 0em;
+}
+
+.debug-inspector[hidden] {
+    display: none;
+}
+
+.debug-inspector:not([hidden]) {
+    display: flex;
+}
+
+
+
+
+/* Items */
+
+.debug-item {
+    /*background-color: green;*/
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.debug-item > .debug-title-tip {
+    display: inline-block;
+    /*background-color: blue;*/
+    font-size: 1em;
+    line-height: 1em;
+    z-index: 11;
+}
+
+.debug-item > .debug-title-tip > strong {
+    background-color: white;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.0em 0.2em 0.0em 0.2em;
+    margin: 0;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.0em;
+    border-bottom-right-radius: 0.0em;
+    border-top: 1px solid black;
+    /*border-bottom: 1px dotted rgba(0, 0, 0, 0.3);*/
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.debug-item > .debug-control {
+    background-color: rgba(255, 255, 255, 1);
+    font-size: 1.3em;
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+    border-top-left-radius: 0.0em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.3em;
+    border-bottom-right-radius: 0.3em;
+    border: 1px solid black;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.debug-item[minsize="onethird"] {
+    min-width: 8.1em;
+}
+
+.debug-item[minsize="half"] {
+    min-width: 12.18em;
+}
+
+.debug-item[minsize="threethird"] {
+    min-width: 16.2em;
+}
+
+.debug-item[minsize="full"] {
+    min-width: 24.3em;
+}
+
+
+
+
+.debug-item > .debug-control-padding {
+    padding: 0.2em;
+}
+
+/* Switch */
+
+.switch {
+    font-size: 1em;
+    position: relative;
+    display: inline-block;
+    width: 1.8em;
+    height: 1.0em;
+    pointer-events: auto;
+}
+
+.switch input {
+    visibility: hidden;
+}
+
+.slider {
+    font-size: 1em;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .2s;
+    border-radius: 1.0em;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 0.80em;
+    width: 0.80em;
+    left: 0.1em;
+    bottom: 0.1em;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(0.8em);
+}
+
+
+.switch-label {
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.0em 0.2em 0.0em 0.2em;
+    margin: 0;
+}
+
+
+
+
+
+
+/* radio button */
+
+.toggle-radio > input + label {
+    background: white;
+}
+
+.toggle-radio > input:checked + label {
+    background: #2196F3;
+    color: white;
+}
+
+/*.toggle-radio > input:not(checked):hover + label {
+    background: #ddd;
+}
+*/
+
+.toggle-radio {
+    font-size: 1em;
+    /*display: inline-block;*/
+    vertical-align: middle;
+    pointer-events: auto;
+}
+
+.toggle-radio > input[type='radio'] {
+    display: none;
+}
+
+.toggle-radio > input + label {
+    font-size: 1em;
+    line-height: 1em;
+    margin-bottom: 0;
+    padding: 0.2em;
+    cursor: pointer;
+    align-items: center;
+    /*display: inline-block;*/
+    float: left;
+    border-radius: 0;
+    border: none;
+    /*border-left: 2px solid rgba(0,0,0,.6);*/
+}
+
+.toggle-radio > input:not(first-child) + label {
+    border-right: 1px solid rgba(0,0,0,.6);
+}
+
+
+.toggle-radio > input:checked + label {
+    transition: background .2s linear;
+}
+
+
+.toggle-radio > input + label:before {
+    display: none;
+}
+
+/* button */
+        .simple-button {
+    font-size: 1em;
+    line-height: 1em;
+    margin: 0;
+    padding: 0.2em;
+    cursor: pointer;
+    background: #2196F3;
+    color: white;
+    pointer-events: auto;
+    border-radius: 0;
+    border: none;
+    transition-duration: 0.3s;
+}
+
+.simple-button:hover {
+    background: #0969C0;
+}
+
+.simple-button:active {
+    background: #ddd;
+}
+
+
+/* CONSOLE */
+
+.debug-console {
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 0.3em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 20em;
+    height: 100%;
+    padding-top: .3em;
+    margin: .2em 0em .2em 0em;
+    pointer-events: auto;
+    overflow-y: scroll;
+}
+
+.debug-console[hidden] {
+    display: none;
+}
+
+.debug-console:not([hidden]) {
+    display: flex;
+}
+
+
+
+
+.debug-console > div {
+    font-size: 1em;
+    line-height: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    /*background: blue;*/
+    padding: 0.0em 0.1em 0.8em 0.1em;
+    align-items: center;
+}
+
+.debug-console > div > span:first-child {
+    font-size: 1em;
+    line-height: 1em;
+    background-color: darkgray;
+    color: black;
+    border-radius: 0.3em;
+    padding: 0.1em;
+    margin: 0.2em 0.5em 0.2em 0.5em;
+    min-width: 2em;
+    max-height: 1.2em;
+    text-align: center;
+}
+
+.debug-console > div[loglevel="log"] > span:first-child {
+    background-color: white;
+    color: black;
+}
+
+    .debug-console > div[loglevel="log"] > span:first-child::after {
+        content: "log";
+    }
+
+
+
+.debug-console > div[loglevel="error"] > span:first-child {
+    background-color: orangered;
+    color: black;
+}
+
+    .debug-console > div[loglevel="error"] > span:first-child::after {
+        content: "err";
+    }
+
+
+
+.debug-console > div[loglevel="warn"] > span:first-child {
+    background-color: orange;
+    color: black;
+}
+
+    .debug-console > div[loglevel="warn"] > span:first-child::after {
+        content: "wrn";
+    }
+
+.debug-console > div[loglevel="debug"] > span:first-child {
+    background-color: mediumseagreen;
+    color: black;
+}
+
+    .debug-console > div[loglevel="debug"] > span:first-child::after {
+        content: "dbg";
+    }
+
+
+.debug-console > div[loglevel="exception"] > span:first-child {
+    background-color: magenta;
+    color: black;
+}
+
+    .debug-console > div[loglevel="exception"] > span:first-child::after {
+        content: "ex";
+    }
+
+.debug-console > div[loglevel="promise"] > span:first-child {
+    background-color: magenta;
+    color: black;
+}
+
+    .debug-console > div[loglevel="promise"] > span:first-child::after {
+        content: "pro";
+    }
+
+
+.debug-console > div > span:nth-child(2) {
+    font-size: 1em;
+    line-height: 1em;
+    /*background: red;*/
+    color: white;
+    word-break: break-all;
+}
+
+
+/*.debug-window {
+    font-size: calc(100vw/25);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98%;
+    height: 92%;*/
+    /*background-color: red;*/
+    /*position: fixed;
+    margin: 0;
+    z-index: 5;
+    margin: .5% 1% .5% 1%;
+    pointer-events:none;
+    display: flex;
+    flex-direction:column-reverse;
+}*/
+
+/* DEBUG TOGGLE BUTTON */
+
+/*.debug-btn-container {
+    font-size: 1em;
+    line-height: 1em;
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+.debug-btn {
+    font-size: 1em;
+    line-height: 1em;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    border: 5px solid rgba(192, 0, 0, .7);
+    pointer-events: auto;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.debug-btn > svg {
+    font-size: 1em;
+    line-height: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    margin: 0.7em;
+    transition-duration: 0.15s;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+}
+
+.debug-btn:hover > svg {
+    transform: scale(1.2);
+}
+
+.debug-btn:not(hover) > svg {
+    transform: scale(1.0);
+}
+
+.debug-btn > svg > path {
+    fill: orangered;
+}
+
+
+.debug-btn:active > svg > path {
+    fill-opacity:0.6;
+}*/
+
+/* INSPECTOR */
+
+
+/*.debug-inspector {
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 0.3em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 5em;
+    padding-top: .3em;
+    margin: 1em 0em 1em 0em;
+}
+
+.debug-inspector[hidden]{
+    display:none;
+}
+
+.debug-inspector:not([hidden]) {
+    display: flex;
+}*/
+
+
+
+
+/* Items */
+
+/*.debug-item {*/
+   /* background-color: green;*/
+    /*font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.debug-item > .debug-title-tip {
+    display: inline-block;*/
+    /*background-color: blue;*/
+    /*font-size: 1em;
+    line-height: 1em;
+    z-index: 11;
+}
+
+.debug-item > .debug-title-tip > strong {
+    background-color: white;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.0em 0.2em 0.0em 0.2em;
+    margin: 0;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.0em;
+    border-bottom-right-radius: 0.0em;
+    border-top: 1px solid black;
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.debug-item > .debug-control {
+    background-color: rgba(255, 255, 255, 1);
+    font-size: 1.3em;
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+    border-top-left-radius: 0.0em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.3em;
+    border-bottom-right-radius: 0.3em;
+    border: 1px solid black;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    overflow:hidden;
+}
+
+.debug-item > .debug-control-padding {
+    padding: 0.2em;
+}*/
+        
+/* Switch */
+
+/*.switch {
+    font-size: 1em;
+    position: relative;
+    display: inline-block;
+    width: 1.8em;
+    height: 1.0em;
+    pointer-events: auto;
+}
+
+.switch input {
+    visibility:hidden;
+}
+
+.slider {
+    font-size: 1em;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .2s;
+    border-radius: 1.0em;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 0.80em;
+    width: 0.80em;
+    left: 0.1em;
+    bottom: 0.1em;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(0.8em);
+}
+
+
+.switch-label {
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.0em 0.2em 0.0em 0.2em;
+    margin: 0;
+}*/
+
+
+
+
+
+
+/* radio button */
+
+/*.toggle-radio > input + label {
+    background: white;
+}
+
+.toggle-radio > input:checked + label {
+    background: #2196F3;
+    color:white;
+}
+
+.toggle-radio > input:active + label {
+    background: #2196F3;
+    color: white;
+}
+
+.toggle-radio > input:not(checked):hover + label {
+    background: #ddd;
+}
+
+
+.toggle-radio {
+    font-size: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    pointer-events: auto;
+}
+
+.toggle-radio > input[type='radio'] {
+    display: none;
+}
+
+.toggle-radio > input + label {
+    font-size: 1em;
+    line-height: 1em;
+    margin-bottom: 0;
+    padding: 0.2em;
+    cursor: pointer;
+    align-items: center;
+    display: inline-block;
+    float: left;
+    border-radius: 0;
+    border: none;
+}
+
+    .toggle-radio > input:not(first-child) + label {
+        border-right: 2px solid rgba(0,0,0,.6);*/
+        /*background-color:red;*/
+    /*}*/
+    /*.toggle-radio > label:first-child {
+    border-right: 2px solid rgba(0,0,0,.6);
+}*/
+    /*.toggle-radio > input:checked + label {
+        transition: background .2s linear;
+    }
+
+
+.toggle-radio > input + label:before {
+    display: none;
+}*/
+
+/* button */
+
+/*.simple-button {
+    font-size: 1em;
+    line-height: 1em;
+    margin: 0;
+    padding: 0.2em;
+    cursor: pointer;
+    background: #2196F3;
+    color: white;
+    pointer-events: auto;
+    border-radius: 0;
+    border: none;
+    transition-duration: 0.3s;
+}
+
+.simple-button:hover {
+    background: #0969C0;
+}
+
+.simple-button:active {
+    background: #ddd;
+}*/
+
+
+/* CONSOLE */
+
+/*.debug-console {
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 0.3em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 20em;
+    height: 100%;
+    padding-top: .3em;
+    margin: .2em 0em .2em 0em;
+    pointer-events: auto;
+    overflow-y: scroll;
+}
+
+.debug-console[hidden] {
+    display: none;
+}
+
+.debug-console:not([hidden]) {
+    display: flex;
+}
+
+
+
+
+.debug-console > div {
+    font-size: 1em;
+    line-height: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;*/
+    /*background: blue;*/
+    /*padding: 0.0em 0.1em 0.8em 0.1em;
+    align-items:center;
+}
+
+.debug-console > div > span:first-child {
+    font-size: 1em;
+    line-height: 1em;
+    background-color: darkgray;
+    color: black;
+    border-radius: 0.3em;
+    padding: 0.1em;
+    margin: 0.2em 0.5em 0.2em 0.5em;
+    min-width: 2em;
+    max-height: 1.2em;
+    text-align: center;
+}
+
+    .debug-console > div[loglevel="log"] > span:first-child {
+        background-color: white;
+        color: black;
+    }
+
+    .debug-console > div[loglevel="log"] > span:first-child::after {
+        content: "log";
+    }
+
+
+
+.debug-console > div[loglevel="error"] > span:first-child {
+    background-color: orangered;
+    color:black;
+}
+
+.debug-console > div[loglevel="error"] > span:first-child::after {
+    content: "err";
+}
+
+
+
+.debug-console > div[loglevel="warn"] > span:first-child {
+    background-color: orange;
+    color: black;
+}
+
+.debug-console > div[loglevel="warn"] > span:first-child::after {
+    content: "wrn";
+}
+
+.debug-console > div[loglevel="debug"] > span:first-child {
+    background-color: mediumseagreen;
+    color: black;
+}
+ 
+.debug-console > div[loglevel="debug"] > span:first-child::after {
+    content: "dbg";
+}
+
+
+.debug-console > div[loglevel="exception"] > span:first-child {
+    background-color:magenta;
+    color: black;
+}
+
+.debug-console > div[loglevel="exception"] > span:first-child::after {
+    content: "ex";
+}
+
+.debug-console > div[loglevel="promise"] > span:first-child {
+    background-color: magenta;
+    color: black;
+}
+
+.debug-console > div[loglevel="promise"] > span:first-child::after {
+    content: "pro";
+}
+
+
+    .debug-console > div > span:nth-child(2) {
+        font-size: 1em;
+        line-height: 1em;*/
+        /*background: red;*/
+        /*color: white;
+        word-break: break-all;
+        
+    }*/
