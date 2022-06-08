@@ -15,7 +15,9 @@ var _switchControls = new Object();
 var _radioControls = new Object();
 
 
-export const init = (maxLogsDisplayed, dotNetHelper) => {
+export const init = (maxLogs, dotNetHelper) => {
+
+    _maxLogs = maxLogs;
 
     if (_initialized == true) {
 
@@ -24,8 +26,6 @@ export const init = (maxLogsDisplayed, dotNetHelper) => {
     }
 
     _initialized = true;
-
-    _maxLogs = maxLogsDisplayed;
 
     _dotNetHelper = dotNetHelper;
 
@@ -61,7 +61,7 @@ const initConsoleHooks = () => {
         const original = console[logType].bind(console)
 
         return function () {
-
+                
             Array.from(arguments).forEach(arg => {
 
                 appendConsoleLog(_consoleElement, arg, logType);
@@ -138,7 +138,7 @@ const appendConsoleLog = (_consoleElement, log, level) => {
 
 
 
-export const displayText = (title, value, minsize) => {
+export const displayText = (controlId, value, minsize) => {
 
     if (_initialized == false) {
 
@@ -146,12 +146,12 @@ export const displayText = (title, value, minsize) => {
 
     }
 
-    if (!_textControls.hasOwnProperty(title)) {
+    if (!_textControls.hasOwnProperty(controlId)) {
 
         let html = `<div class="debug-item">
-                        <div class="debug-title-tip">
+                        <div class="debug-controlId-tip">
                             <strong>
-                            ${title}
+                            ${controlId}
                             </strong>
                         </div>
                         <div class="debug-control debug-control-padding">
@@ -164,16 +164,16 @@ export const displayText = (title, value, minsize) => {
 
         _inspectorElement.appendChild(textElement);
 
-        _textControls[title] = textElement.querySelector(".debug-control");
+        _textControls[controlId] = textElement.querySelector(".debug-control");
     }
 
-    let textElement = _textControls[title];
+    let textElement = _textControls[controlId];
 
     textElement.innerText = value;
 
 }
 
-export const createButton = (title, buttonText, minsize) => {
+export const createButton = (controlId, buttonText, minsize) => {
 
     if (_initialized == false) {
 
@@ -181,12 +181,12 @@ export const createButton = (title, buttonText, minsize) => {
 
     }
 
-    if (!_buttonControls.hasOwnProperty(title)) {
+    if (!_buttonControls.hasOwnProperty(controlId)) {
 
         let html = `<div class="debug-item">
-                        <div class="debug-title-tip">
+                        <div class="debug-controlId-tip">
                             <strong>
-                            ${title}
+                            ${controlId}
                             </strong>
                         </div>
                         <div class="debug-control">
@@ -195,29 +195,27 @@ export const createButton = (title, buttonText, minsize) => {
                         </div>
                     </div>`;
 
-        //<button class="simple-button" onclick='async ()=>{await _dotNetHelper.invokeMethodAsync(' ButtonClicked', this.dataset.id)}'">
-
         let buttonElement = createDomElementFromHtmlString(html);
 
         buttonElement.setAttribute("minsize", minsize);
 
         _inspectorElement.appendChild(buttonElement);
 
-        _buttonControls[title] = buttonElement.querySelector(".simple-button");
+        _buttonControls[controlId] = buttonElement.querySelector(".simple-button");
 
-        _buttonControls[title].innerText = buttonText;
+        _buttonControls[controlId].innerText = buttonText;
 
-        _buttonControls[title].onclick = async () => await _dotNetHelper.invokeMethodAsync('ButtonClicked', title);
+        _buttonControls[controlId].onclick = async () => await _dotNetHelper.invokeMethodAsync('ButtonClicked', controlId);
 
     } else {
 
-        console.warn(`button ${title} already exist.`);
+        console.warn(`Blazug button ${controlId} already exists.`);
 
     }
 
 }
 
-export const createSwitch = (title, initialState, switchTextWhenOn, switchTextWhenOff, minsize) => {
+export const createSwitch = (controlId, initialState, switchTextWhenOn, switchTextWhenOff, minsize) => {
 
     if (_initialized == false) {
 
@@ -225,12 +223,12 @@ export const createSwitch = (title, initialState, switchTextWhenOn, switchTextWh
 
     }
 
-    if (!_switchControls.hasOwnProperty(title)) {
+    if (!_switchControls.hasOwnProperty(controlId)) {
 
         let html = `<div class="debug-item">
-                        <div class="debug-title-tip">
+                        <div class="debug-controlId-tip">
                             <strong>
-                            ${title}
+                            ${controlId}
                             </strong>
                         </div>
                         <div class="debug-control  debug-control-padding" >
@@ -250,11 +248,11 @@ export const createSwitch = (title, initialState, switchTextWhenOn, switchTextWh
 
         _inspectorElement.appendChild(switchElement);
 
-        _switchControls[title] = switchElement;
+        _switchControls[controlId] = switchElement;
 
-        var label = _switchControls[title].querySelector(".debug-item>.debug-control>.switch-label");
+        var label = _switchControls[controlId].querySelector(".debug-item>.debug-control>.switch-label");
 
-        var input = _switchControls[title].querySelector(".debug-item>.debug-control>.switch>input");
+        var input = _switchControls[controlId].querySelector(".debug-item>.debug-control>.switch>input");
 
         label.innerText = initialState ? switchTextWhenOn : switchTextWhenOff;
 
@@ -264,20 +262,19 @@ export const createSwitch = (title, initialState, switchTextWhenOn, switchTextWh
 
             label.innerText = input.checked ? switchTextWhenOn : switchTextWhenOff;
 
-            await _dotNetHelper.invokeMethodAsync('SwitchClicked', title, input.checked);
+            await _dotNetHelper.invokeMethodAsync('SwitchClicked', controlId, input.checked);
 
         };
 
     } else {
 
-        console.warn(`switch ${title} already exist.`);
+        console.warn(`Blazug switch ${controlId} already exists.`);
 
     }
 
 }
 
-export const createRadio = (title, initialState, buttonsText, minsize) => {
-
+export const createRadio = (controlId, initialState, buttonsText, minsize) => {
 
     if (_initialized == false) {
 
@@ -285,11 +282,9 @@ export const createRadio = (title, initialState, buttonsText, minsize) => {
 
     }
 
-
-    if (!_radioControls.hasOwnProperty(title)) {
+    if (!_radioControls.hasOwnProperty(controlId)) {
 
         let buttonsHtml = "";
-
 
         for (var i = 0; i < buttonsText.length; i++) {
 
@@ -303,15 +298,10 @@ export const createRadio = (title, initialState, buttonsText, minsize) => {
                      <label for="${id}">${buttonText}</label>`;
         }
 
-        buttonsText.forEach(buttonText => {
-
-
-        })
-
         let html = `<div class="debug-item">
-                        <div class="debug-title-tip">
+                        <div class="debug-controlId-tip">
                             <strong>
-                            ${title}
+                            ${controlId}
                             </strong>
                         </div>
                         <div class="debug-control" >
@@ -327,7 +317,7 @@ export const createRadio = (title, initialState, buttonsText, minsize) => {
 
         _inspectorElement.appendChild(radioElement);
 
-        _radioControls[title] = radioElement;
+        _radioControls[controlId] = radioElement;
 
         var inputs = radioElement.querySelectorAll(".debug-item>.debug-control>.toggle-radio>input");
 
@@ -339,32 +329,15 @@ export const createRadio = (title, initialState, buttonsText, minsize) => {
 
             input.onchange = async (e) => {
 
-                await _dotNetHelper.invokeMethodAsync('RadioClicked', title, parseInt(e.srcElement.dataset.index));
+                await _dotNetHelper.invokeMethodAsync('RadioClicked', controlId, parseInt(e.srcElement.dataset.index));
 
             };
 
         }
 
-
-        //var label = _radioControls[title].querySelector(".debug-item>.debug-control>.Radio-label");
-
-        //var input = _radioControls[title].querySelector(".debug-item>.debug-control>.Radio>input");
-
-        //label.innerText = initialState ? RadioTextWhenOn : RadioTextWhenOff;
-
-        //input.checked = initialState;
-
-        //input.onchange = async () => {
-
-        //    label.innerText = input.checked ? RadioTextWhenOn : RadioTextWhenOff;
-
-        //    await _dotNetHelper.invokeMethodAsync('RadioClicked', title, input.checked);
-
-        //};
-
     } else {
 
-        console.warn(`Radio ${title} already exist.`);
+        console.warn(`Blazug radio buttons ${controlId} already exists.`);
 
     }
 

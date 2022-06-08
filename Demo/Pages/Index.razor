@@ -1,4 +1,4 @@
-﻿@inject Blazug.Controls Debug;
+﻿@inject Blazug.Controls Dbg;
 @inject ILogger<Index> _logger
 
 @page "/"
@@ -28,7 +28,7 @@
     {
         currentCount++;
 
-        await Debug.DisplayText("counter", $"{currentCount}");
+        await Dbg.DisplayTextAsync("counter-async", $"{currentCount}");
 
     }
 
@@ -36,16 +36,32 @@
     {
         if (firstRender)
         {
-            Console.WriteLine("coucou");
+            _logger.LogWarning("coucou11");
+            Console.WriteLine("coucou1");
 
-            await Debug.DisplayText("counter", $"{currentCount}");
+            await Dbg.DisplayTextAsync("counter-async", $"{currentCount}");
 
-            await Debug.CreateButton("button", "decrement", OnDecrement );
+            _logger.LogWarning("coucou22");
+            Console.WriteLine("coucou2");
 
-            await Debug.CreateSwitch("image", imageVisibility, "visible", "hidden", OnToggleImageVisibility, DebugItemMinSize.OneThird);
+            await Dbg.CreateButtonAsync("button-async", "decrement", OnDecrement );
 
-            await Debug.CreateRadio("theme", 0, new() {"Light","Dark","Black"}, OnThemeChange);
 
+            _logger.LogWarning("coucou33");
+            Console.WriteLine("coucou3");
+
+            await Dbg.CreateSwitchAsync("image-async", imageVisibility, "visible", "hidden", OnToggleImageVisibility, Blazug.ControlSize.OneThird);
+
+            _logger.LogWarning("coucou44");
+            Console.WriteLine("coucou4");
+
+            await Dbg.CreateRadioButtonsAsync("theme-async", 0, new() {"Light","Dark","Black"}, OnThemeXChange);
+
+            _logger.LogWarning("coucou55");
+            Console.WriteLine("coucou5");
+
+
+            await Task.Run(async () => { await Task.Delay(1000);_logger.LogWarning("coucou66");Console.WriteLine("coucou6"); });
 
         }
     }
@@ -56,7 +72,7 @@
 
         StateHasChanged();
 
-        await Debug.DisplayText("counter", $"{currentCount}");
+        await Dbg.DisplayTextAsync("counter-async", $"{currentCount}");
     }
 
     private void OnToggleImageVisibility(bool state)
@@ -67,7 +83,7 @@
     }
 
 
-    protected void OnThemeChange(int index)
+    protected void OnThemeXChange(int index)
     {
         theme = index switch
         {

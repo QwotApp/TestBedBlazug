@@ -129,10 +129,26 @@
         };
 
     }
+
+    //protected override void OnInitialized()
+    //{
+    //    Debug.Init(MaxLogs);
+    //}
+
     protected override async Task OnInitializedAsync()
     {
-        await Debug.Init(MaxLogs);
+        Console.WriteLine("Blazug1");
+        await Debug.InitAsync(MaxLogs);
+        Console.WriteLine("Blazug2");
     }
+
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //         await Debug.Init(MaxLogs);
+    //    }
+    //}
 
 
     //protected override void OnInitialized()

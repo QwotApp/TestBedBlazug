@@ -1,6 +1,6 @@
 ﻿namespace Blazug;
 
-public enum BlazugItemSize
+public enum ControlSize
 {
     Content, // take the size of the content.
     OneThird,

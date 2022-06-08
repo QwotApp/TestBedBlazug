@@ -21,9 +21,6 @@ public class Controls : IAsyncDisposable
 
     private readonly Dictionary<string, Func<int, Task>> RadiosAsync;
 
-
-
-
     public Controls(IJSRuntime jsRuntime)
     {
         ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Blazug/blazug.js").AsTask());
@@ -43,114 +40,141 @@ public class Controls : IAsyncDisposable
         RadiosAsync = new();
     }
 
-    internal async ValueTask Init(int maxLogs)
+    internal async ValueTask InitAsync(int maxLogs)
     {
         var module = await ModuleTask.Value;
 
         await module.InvokeVoidAsync("init", maxLogs, DotNetHelper);
     }
 
-    public async ValueTask DisplayText(string title, string value, BlazugItemSize minSize = BlazugItemSize.Half)
+    internal void Init(int maxLogs) =>
+        Task.Run(async () => await InitAsync(maxLogs));
+
+    public async ValueTask DisplayTextAsync(string id, string value, ControlSize minSize = ControlSize.Half)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("displayText", title, value, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("displayText", id, value, minSize.ToString().ToLower());
     }
 
-    public async ValueTask CreateButton(string title, string buttonText, Action onClick, BlazugItemSize minSize = BlazugItemSize.Content)
+    public void DisplayText(string id, string value, ControlSize minSize = ControlSize.Half) =>
+        Task.Run(async () => await DisplayTextAsync(id, value, minSize));
+
+
+    public async ValueTask CreateButtonAsync(string id, string buttonText, Action onClick, ControlSize minSize = ControlSize.Content)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("createButton", title, buttonText, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("createButton", id, buttonText, minSize.ToString().ToLower());
 
-        Buttons.Add(title, onClick);
+        Buttons.Add(id, onClick);
     }
 
-    public async ValueTask CreateButton(string title, string buttonText, Func<Task> onClick, BlazugItemSize minSize = BlazugItemSize.Content)
+    public async ValueTask CreateButtonAsync(string id, string buttonText, Func<Task> onClick, ControlSize minSize = ControlSize.Content)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("createButton", title, buttonText, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("createButton", id, buttonText, minSize.ToString().ToLower());
 
-        ButtonsAsync.Add(title, onClick);
+        ButtonsAsync.Add(id, onClick);
     }
+
+    public void CreateButton(string id, string buttonText, Action onClick, ControlSize minSize = ControlSize.Content) =>
+        Task.Run(async () => await CreateButtonAsync(id, buttonText, onClick, minSize));
+    public void CreateButton(string id, string buttonText, Func<Task> onClick, ControlSize minSize = ControlSize.Content) =>
+        Task.Run(async () => await CreateButtonAsync(id, buttonText, onClick, minSize));
+
 
     [JSInvokable]
-    public async ValueTask ButtonClicked(string title)
+    public async ValueTask ButtonClicked(string id)
     {
-        if (Buttons.ContainsKey(title))
+        if (Buttons.ContainsKey(id))
         {
-            Buttons[title].Invoke();
+            Buttons[id].Invoke();
         }
 
-        if (ButtonsAsync.ContainsKey(title))
+        if (ButtonsAsync.ContainsKey(id))
         {
-            await ButtonsAsync[title].Invoke();
+            await ButtonsAsync[id].Invoke();
         }
     }
 
-    public async ValueTask CreateSwitch(string title, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, BlazugItemSize minSize = BlazugItemSize.OneThird)
+    public async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, ControlSize minSize = ControlSize.OneThird)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("createSwitch", title, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
 
-        Switches.Add(title, onSwitch);
+        Switches.Add(id, onSwitch);
     }
 
-    public async ValueTask CreateSwitch(string title, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, BlazugItemSize minSize = BlazugItemSize.OneThird)
+    public async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, ControlSize minSize = ControlSize.OneThird)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("createSwitch", title, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
 
-        SwitchesAsync.Add(title, onSwitch);
+        SwitchesAsync.Add(id, onSwitch);
     }
+
+    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, ControlSize minSize = ControlSize.OneThird) =>
+        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
+    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, ControlSize minSize = ControlSize.OneThird) =>
+        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
+
+
 
     [JSInvokable]
-    public async ValueTask SwitchClicked(string title, bool state)
+    public async ValueTask SwitchClicked(string id, bool state)
     {
-        if (Switches.ContainsKey(title))
+        if (Switches.ContainsKey(id))
         {
-            Switches[title].Invoke(state);
+            Switches[id].Invoke(state);
         }
 
-        if (SwitchesAsync.ContainsKey(title))
+        if (SwitchesAsync.ContainsKey(id))
         {
-            await SwitchesAsync[title].Invoke(state);
+            await SwitchesAsync[id].Invoke(state);
         }
     }
 
-    public async ValueTask CreateRadio(string title, int initialState, List<string> buttonsText, Action<int> onRadio, BlazugItemSize minSize = BlazugItemSize.Content)
+    public async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Action<int> onRadio, ControlSize minSize = ControlSize.Content)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("createRadio", title, initialState, buttonsText, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
 
-        Radios.Add(title, onRadio);
+        Radios.Add(id, onRadio);
     }
 
 
-    public async ValueTask CreateRadio(string title, int initialState, List<string> buttonsText, Func<int, Task> onRadio, BlazugItemSize minSize = BlazugItemSize.Content)
+    public async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Func<int, Task> onRadio, ControlSize minSize = ControlSize.Content)
     {
         var module = await ModuleTask.Value;
 
-        await module.InvokeVoidAsync("createRadio", title, initialState, buttonsText, minSize.ToString().ToLower());
+        await module.InvokeVoidAsync("createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
 
-        RadiosAsync.Add(title, onRadio);
+        RadiosAsync.Add(id, onRadio);
     }
+
+    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Action<int> onRadio, ControlSize minSize = ControlSize.Content) =>
+        Task.Run(async () => await CreateRadioButtonsAsync(id, initialState, buttonsText, onRadio, minSize));
+
+    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Func<int, Task> onRadio, ControlSize minSize = ControlSize.Content) =>
+        Task.Run(async () => await CreateRadioButtonsAsync(id, initialState, buttonsText, onRadio, minSize));
+
 
     [JSInvokable]
-    public async ValueTask RadioClicked(string title, int index)
+    public async ValueTask RadioClicked(string id, int index)
     {
-        if (Radios.ContainsKey(title))
+        if (Radios.ContainsKey(id))
         {
-            Radios[title].Invoke(index);
+            Radios[id].Invoke(index);
         }
 
-        if (RadiosAsync.ContainsKey(title))
+        if (RadiosAsync.ContainsKey(id))
         {
-            await RadiosAsync[title].Invoke(index);
+            await RadiosAsync[id].Invoke(index);
         }
     }
 
