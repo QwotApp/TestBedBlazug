@@ -20,6 +20,62 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+
+
+    <script>
+
+        window.blazugConsole = [];
+
+        const initConsoleHooks2 = () => {
+
+            window.onerror = function (error, url, line) {
+
+                window.blazugConsole.push(`exception => ${error} | ${url} | ${line}`);
+
+                return false;
+            }
+
+
+            window.onunhandledrejection = function (e) {
+
+                window.blazugConsole.push(`promise => ${e.reason}`);
+
+            }
+
+
+            function hookLogType(logType) {
+
+                const original = console[logType].bind(console)
+
+                return function () {
+
+                    Array.from(arguments).forEach(arg => {
+
+                        window.blazugConsole.push(`${logType} => ${arg}`);
+
+                    });
+
+                    original.apply(console, arguments)
+                }
+            }
+
+            ["log", "error", "warn", "debug"].forEach(logType => {
+
+                console[logType] = hookLogType(logType);
+
+            })
+
+        }
+
+
+        initConsoleHooks2();
+
+    </script>
+
 </body>
+
+
+
+
 
 </html>

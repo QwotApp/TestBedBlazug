@@ -1,6 +1,10 @@
 ﻿@inject IJSRuntime JS
 @inject Blazug.Controls Debug;
 
+@using Microsoft.Extensions.Logging
+
+@inject ILogger<BlazugOverlay> _logger
+
 
 <div class="debug-window">
 
@@ -101,12 +105,12 @@
     private bool ShowInspector {get;set;} = true;
     private bool ShowConsole {get;set;} = true;
 
-    //private static System.Timers.Timer? aTimer;
+ private static System.Timers.Timer? aTimer;
 
-    //private int counter = 0;
-    //private int ticks = 0;
+    private int counter = 0;
+    private int ticks = 0;
 
-    //private int rollLevel = 0;
+    private int rollLevel = 0;
 
     private void ToggleDebug()
     {
@@ -140,6 +144,52 @@
         Console.WriteLine("Blazug1");
         await Debug.InitAsync(MaxLogs);
         Console.WriteLine("Blazug2");
+
+        _logger.LogInformation("Blazug22222");
+
+        aTimer = new System.Timers.Timer(1000);
+
+        aTimer.Elapsed += async (sender,  e) =>
+            {
+
+                await Debug.DisplayTextAsync("Timer", $"DisplayText : {ticks++}" );
+
+                rollLevel = ++rollLevel % 7;
+
+                switch(rollLevel)
+                {
+                    case 0:
+                        Console.WriteLine($"Console.WriteLine : {rollLevel} {ticks++}"); // OK: fowarded as 'log' to console
+                        break;
+
+                    case 1:
+                        _logger.LogWarning($"LogWarning : {rollLevel} {ticks++}"); // OK: fowarded as 'warn' to console
+                        break;
+
+                    case 2:
+                        _logger.LogError($"LogError : {rollLevel} {ticks++}"); // OK: fowarded as 'err' to console
+                        break;
+
+                    case 3:
+                        _logger.LogCritical($"LogCritical : {rollLevel} {ticks++}"); // OK: fowarded as 'err' to console
+                        break;
+
+                    case 4:
+                        _logger.LogInformation($"LogInformation : {rollLevel} {ticks++}"); // BAD: fowarded to console but not catched by blazug
+                        break;
+
+                    case 5:
+                        _logger.LogDebug($"LogDebug : {rollLevel} {ticks++}"); // BAD: not fowarded to console
+                        break;
+
+                    case 6:
+                        _logger.LogTrace($"LogTrace {rollLevel} {ticks++}"); // BAD: not fowarded to console
+                        break;
+                }
+            };
+
+        aTimer.Enabled = true;
+
     }
 
     //protected override async Task OnAfterRenderAsync(bool firstRender)
