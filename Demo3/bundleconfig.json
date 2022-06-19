@@ -1,0 +1,20 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/blazug.min.css",
+    "inputFiles": [
+      "wwwroot/css/blazug.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blazug.min.js",
+    "inputFiles": [
+      "wwwroot/js/blazug.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true,
+      "preserveImportantComments": true
+    },
+    "sourceMap": false
+  }
+]

@@ -1,13 +1,20 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
+using System.Text;
 
 namespace Blazug;
 
-public class Controls : IAsyncDisposable
+public class Controls : IDisposable
 {
-    private readonly Lazy<Task<IJSObjectReference>> ModuleTask;
+    private readonly IJSRuntime JS;
+
+    private readonly ILogger Log;
+
+    private bool Initialized;
+
+    private int ErrorReported;
 
     private readonly DotNetObjectReference<Controls> DotNetHelper;
-
 
     private readonly Dictionary<string, Action> Buttons;
 
@@ -21,9 +28,22 @@ public class Controls : IAsyncDisposable
 
     private readonly Dictionary<string, Func<int, Task>> RadiosAsync;
 
-    public Controls(IJSRuntime jsRuntime)
+    private readonly Dictionary<string, Func<ValueTask>> ButtonsValueAsync;
+
+    private readonly Dictionary<string, Func<bool, ValueTask>> SwitchesValueAsync;
+
+    private readonly Dictionary<string, Func<int, ValueTask>> RadiosValueAsync;
+
+
+    public Controls(IJSRuntime js, ILogger<Controls> logger)
     {
-        ModuleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Blazug/blazug.js").AsTask());
+        JS = js;
+
+        Log = logger;
+
+        Initialized = false;
+
+        ErrorReported = 0;
 
         DotNetHelper = DotNetObjectReference.Create(this);
 
@@ -38,51 +58,168 @@ public class Controls : IAsyncDisposable
         SwitchesAsync = new();
 
         RadiosAsync = new();
+
+        ButtonsValueAsync = new();
+
+        SwitchesValueAsync = new();
+
+        RadiosValueAsync = new();
     }
 
-    internal async ValueTask InitAsync(int maxLogs)
+    internal async ValueTask InitAsync()
     {
-        var module = await ModuleTask.Value;
+        try
+        {
+            await JS.InvokeVoidAsync("blazug.initDotnet", DotNetHelper);
 
-        await module.InvokeVoidAsync("init", maxLogs, DotNetHelper);
+            Initialized = true;
+        }
+        catch(JSException)
+        {
+            if(ErrorReported++ == 0)
+            {
+                Log.LogWarning("Blazug needs blazug.js & blazug.css to be added to index.html first to catch console logs. See github...");
+            }
+        }
     }
 
-    internal void Init(int maxLogs) =>
-        Task.Run(async () => await InitAsync(maxLogs));
-
-    public async ValueTask DisplayTextAsync(string id, string value, ControlSize minSize = ControlSize.Half)
+    internal void Init()
     {
-        var module = await ModuleTask.Value;
-
-        await module.InvokeVoidAsync("displayText", id, value, minSize.ToString().ToLower());
+        Task.Run(async () => await InitAsync());
     }
 
-    public void DisplayText(string id, string value, ControlSize minSize = ControlSize.Half) =>
+
+    // Show/Hide
+
+    private async ValueTask ShowAsync(bool visible)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        await JS.InvokeVoidAsync("blazug.show", visible);
+    }
+
+    public void Show(bool visible)
+    {
+        Task.Run(async () => await ShowAsync(visible));
+    }
+
+    // MaxLogs
+
+    private async ValueTask SetMaxLogsAsync(int maxLogs)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        await JS.InvokeVoidAsync("blazug.setMaxLogs", maxLogs);
+    }
+
+    public void SetMaxLogs(int maxLogs)
+    {
+        Task.Run(async () => await SetMaxLogsAsync(maxLogs));
+    }
+
+
+    // GetLogs
+
+    public async Task<string> GetLogsAsync()
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        var strlogs = await JS.InvokeAsync<string>("blazug.getLogs");
+
+        return strlogs;
+    }
+
+    public async Task DownloadString(string filename, string logs) =>
+        await DownloadString(filename, logs, Encoding.UTF8);
+
+    public async Task DownloadString(string filename,string logs, Encoding encoding)
+    {
+
+        var memStream = new MemoryStream(encoding.GetBytes(logs));
+
+        using var streamRef = new DotNetStreamReference(stream: memStream);
+
+        await JS.InvokeVoidAsync("blazug.downloadFileFromStream", filename, streamRef);
+
+    }
+
+    // Display Text
+
+    private async ValueTask DisplayTextAsync(string id, string value, ControlSize minSize = ControlSize.Medium)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        await JS.InvokeVoidAsync("blazug.displayText", id, value, minSize.ToString().ToLower());
+    }
+
+    public void DisplayText(string id, string value, ControlSize minSize = ControlSize.Medium)
+    {
         Task.Run(async () => await DisplayTextAsync(id, value, minSize));
+    }
 
+    // Button
 
-    public async ValueTask CreateButtonAsync(string id, string buttonText, Action onClick, ControlSize minSize = ControlSize.Content)
+    private async ValueTask CreateButtonAsync(string id, string buttonText, Action onClick, ControlSize minSize = ControlSize.Content)
     {
-        var module = await ModuleTask.Value;
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
 
-        await module.InvokeVoidAsync("createButton", id, buttonText, minSize.ToString().ToLower());
+        await JS.InvokeVoidAsync("blazug.createButton", id, buttonText, minSize.ToString().ToLower());
 
         Buttons.Add(id, onClick);
     }
 
-    public async ValueTask CreateButtonAsync(string id, string buttonText, Func<Task> onClick, ControlSize minSize = ControlSize.Content)
+    private async ValueTask CreateButtonAsync(string id, string buttonText, Func<Task> onClick, ControlSize minSize = ControlSize.Content)
     {
-        var module = await ModuleTask.Value;
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
 
-        await module.InvokeVoidAsync("createButton", id, buttonText, minSize.ToString().ToLower());
+        await JS.InvokeVoidAsync("blazug.createButton", id, buttonText, minSize.ToString().ToLower());
 
         ButtonsAsync.Add(id, onClick);
     }
 
-    public void CreateButton(string id, string buttonText, Action onClick, ControlSize minSize = ControlSize.Content) =>
+    private async ValueTask CreateButtonAsync(string id, string buttonText, Func<ValueTask> onClick, ControlSize minSize = ControlSize.Content)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        await JS.InvokeVoidAsync("blazug.createButton", id, buttonText, minSize.ToString().ToLower());
+
+        ButtonsValueAsync.Add(id, onClick);
+    }
+
+    public void CreateButton(string id, string buttonText, Action onClick, ControlSize minSize = ControlSize.Content)
+    {
         Task.Run(async () => await CreateButtonAsync(id, buttonText, onClick, minSize));
-    public void CreateButton(string id, string buttonText, Func<Task> onClick, ControlSize minSize = ControlSize.Content) =>
+    }
+
+    public void CreateButton(string id, string buttonText, Func<Task> onClick, ControlSize minSize = ControlSize.Content)
+    {
         Task.Run(async () => await CreateButtonAsync(id, buttonText, onClick, minSize));
+    }
+    public void CreateButton(string id, string buttonText, Func<ValueTask> onClick, ControlSize minSize = ControlSize.Content)
+    {
+        Task.Run(async () => await CreateButtonAsync(id, buttonText, onClick, minSize));
+    }
 
 
     [JSInvokable]
@@ -97,32 +234,64 @@ public class Controls : IAsyncDisposable
         {
             await ButtonsAsync[id].Invoke();
         }
+
+        if (ButtonsValueAsync.ContainsKey(id))
+        {
+            await ButtonsValueAsync[id].Invoke();
+        }
     }
 
-    public async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, ControlSize minSize = ControlSize.OneThird)
-    {
-        var module = await ModuleTask.Value;
+    // Switch
 
-        await module.InvokeVoidAsync("createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
+    private async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, ControlSize minSize = ControlSize.Small)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        await JS.InvokeVoidAsync("blazug.createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
 
         Switches.Add(id, onSwitch);
     }
 
-    public async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, ControlSize minSize = ControlSize.OneThird)
+    private async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, ControlSize minSize = ControlSize.Small)
     {
-        var module = await ModuleTask.Value;
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
 
-        await module.InvokeVoidAsync("createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
+        await JS.InvokeVoidAsync("blazug.createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
 
         SwitchesAsync.Add(id, onSwitch);
     }
 
-    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, ControlSize minSize = ControlSize.OneThird) =>
-        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
-    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, ControlSize minSize = ControlSize.OneThird) =>
-        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
+    private async ValueTask CreateSwitchAsync(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, ValueTask> onSwitch, ControlSize minSize = ControlSize.Small)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
 
+        await JS.InvokeVoidAsync("blazug.createSwitch", id, initialState, switchTextWhenOn, switchTextWhenOff, minSize.ToString().ToLower());
 
+        SwitchesValueAsync.Add(id, onSwitch);
+    }
+
+    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Action<bool> onSwitch, ControlSize minSize = ControlSize.Small)
+    {
+        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
+    }
+
+    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, Task> onSwitch, ControlSize minSize = ControlSize.Small)
+    {
+        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
+    }
+    public void CreateSwitch(string id, bool initialState, string switchTextWhenOn, string switchTextWhenOff, Func<bool, ValueTask> onSwitch, ControlSize minSize = ControlSize.Small)
+    {
+        Task.Run(async () => await CreateSwitchAsync(id, initialState, switchTextWhenOn, switchTextWhenOff, onSwitch, minSize));
+    }
 
     [JSInvokable]
     public async ValueTask SwitchClicked(string id, bool state)
@@ -136,32 +305,64 @@ public class Controls : IAsyncDisposable
         {
             await SwitchesAsync[id].Invoke(state);
         }
+
+        if (SwitchesValueAsync.ContainsKey(id))
+        {
+            await SwitchesValueAsync[id].Invoke(state);
+        }
     }
 
-    public async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Action<int> onRadio, ControlSize minSize = ControlSize.Content)
-    {
-        var module = await ModuleTask.Value;
+    // Radio Buttons
 
-        await module.InvokeVoidAsync("createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
+    private async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Action<int> onRadio, ControlSize minSize = ControlSize.Content)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
+
+        await JS.InvokeVoidAsync("blazug.createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
 
         Radios.Add(id, onRadio);
     }
 
-
-    public async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Func<int, Task> onRadio, ControlSize minSize = ControlSize.Content)
+    private async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Func<int, Task> onRadio, ControlSize minSize = ControlSize.Content)
     {
-        var module = await ModuleTask.Value;
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
 
-        await module.InvokeVoidAsync("createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
+        await JS.InvokeVoidAsync("blazug.createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
 
         RadiosAsync.Add(id, onRadio);
     }
 
-    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Action<int> onRadio, ControlSize minSize = ControlSize.Content) =>
-        Task.Run(async () => await CreateRadioButtonsAsync(id, initialState, buttonsText, onRadio, minSize));
+    private async ValueTask CreateRadioButtonsAsync(string id, int initialState, List<string> buttonsText, Func<int, ValueTask> onRadio, ControlSize minSize = ControlSize.Content)
+    {
+        if (Initialized == false)
+        {
+            await InitAsync();
+        }
 
-    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Func<int, Task> onRadio, ControlSize minSize = ControlSize.Content) =>
+        await JS.InvokeVoidAsync("blazug.createRadio", id, initialState, buttonsText, minSize.ToString().ToLower());
+
+        RadiosValueAsync.Add(id, onRadio);
+    }
+
+    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Action<int> onRadio, ControlSize minSize = ControlSize.Content)
+    {
         Task.Run(async () => await CreateRadioButtonsAsync(id, initialState, buttonsText, onRadio, minSize));
+    }
+
+    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Func<int, Task> onRadio, ControlSize minSize = ControlSize.Content)
+    {
+        Task.Run(async () => await CreateRadioButtonsAsync(id, initialState, buttonsText, onRadio, minSize));
+    }
+    public void CreateRadioButtons(string id, int initialState, List<string> buttonsText, Func<int, ValueTask> onRadio, ControlSize minSize = ControlSize.Content)
+    {
+        Task.Run(async () => await CreateRadioButtonsAsync(id, initialState, buttonsText, onRadio, minSize));
+    }
 
 
     [JSInvokable]
@@ -176,22 +377,17 @@ public class Controls : IAsyncDisposable
         {
             await RadiosAsync[id].Invoke(index);
         }
+
+        if (RadiosValueAsync.ContainsKey(id))
+        {
+            await RadiosValueAsync[id].Invoke(index);
+        }
     }
 
-
-
-    public async ValueTask DisposeAsync()
+    public void Dispose() 
     {
-        if (ModuleTask.IsValueCreated)
-        {
-            var module = await ModuleTask.Value;
-
-            await module.DisposeAsync();
-        }
+        Initialized = true;
 
         DotNetHelper.Dispose();
     }
-
-
-
 }

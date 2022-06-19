@@ -11,18 +11,4 @@ public static class BlazugExtensions
         
         return services;
     }
-
-    public static IServiceProvider UseBlazug(this IServiceProvider serviceProvider,int maxLogs)
-    {
-        var controls = serviceProvider.GetService(typeof(Controls)) as Controls;
-
-        controls?.Init(maxLogs);
-
-        return serviceProvider;
-    }
-
-
-    public static IServiceProvider UseBlazug(this WebAssemblyHost host, int maxLogs) =>
-        host.UseBlazug(maxLogs);
-
 }
