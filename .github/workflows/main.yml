@@ -54,7 +54,7 @@ jobs:
 
     - name: Build
       run: dotnet build ./BlazugDemo --configuration Release --no-restore
-
+ 
     # - name: Pack
     #   run: dotnet pack .\BlazugDemo\ --configuration Release --no-restore
 
