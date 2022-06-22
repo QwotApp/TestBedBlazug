@@ -1,5 +1,4 @@
-/*@license  blazug*/
-
+/* @license  blazug/MIT */
 
 (function (blazug) {
 
