@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Blazug</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="./blazug.css" />
+
+    <style>
+        html {
+                font-size: 16px;
+                font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+                line-height: 1.5;
+             }
+
+             body{
+                background-color: coral;
+             }
+    </style>
+
+</head>
+
+<body>
+    <script src="./blazug.js" startup="controls"></script>
+    <!-- <script src="./blazug.js" hiddenAtStartup="true"></script> -->
+
+    <script>
+        // play with blazug logs.
+        let iLog=0;
+        for(;iLog<50;iLog++) {
+            console.log("👋 from the console. (" + (iLog + 1) + ").");
+        }
+        setInterval(() => console.log("👋 from the console. (" + (iLog++ +1) + ")."), 5000);
+
+        console.warn("take care.");
+        console.error("something wrong happened. 🤬");
+        console.debugging = true;
+        console.debug("let's de-🐛 it with blazug !!!");
+        // intentionaly raise an exception
+        unknowfunction();
+    </script>
+
+    <script>
+        // play with blazug controls.
+
+        // display a text control (can be called multiple times)
+        var i = 0;
+        blazug.displayText("⏱️counter⏱️", i, "medium");
+        setInterval(() => blazug.displayText("⏱️counter⏱️", ++i), 2500);
+
+
+        blazug.createButton("logs", "Download", (controlId, element) => {
+            blazug.downloadLogs();
+        });
+
+
+
+        blazug.createButton("button2", "Click Me !", "max", (controlId, element) => {
+            alert("button '" + controlId + "' has been clicked.")
+        });
+
+        blazug.createButton("button", (controlId, element) => {
+            alert("button '" + controlId + "' has been clicked.")
+        });
+
+
+
+        blazug.createSwitch("toggle2",  "True", "False", true, "max", (controlId, state, text, element) => {
+            alert("switch '" + controlId + "' state is '" + text + "' (" + state +").")
+        });
+
+        blazug.createSwitch("toggle",(controlId, state, text, element) => {
+            alert("switch '" + controlId + "' state is '" + text + "' (" + state +").")
+        });
+
+
+        
+        blazug.createRadio("theme2", ["Text1","Text2","Text3","Text4"], 2, "max", (controlId, index, text, element) => {
+            alert("radio '" + controlId + "' state is '" + text + "' (index: " + index +").")
+        });
+
+        blazug.createRadio("theme", ["Light","Dark","Black"], (controlId, index, text, element) => {
+            alert("radio '" + controlId + "' state is '" + text + "' (index: " + index +").")
+        });
+
+
+       
+
+    </script> 
+
+
+
+
+</body>
+
+</html>

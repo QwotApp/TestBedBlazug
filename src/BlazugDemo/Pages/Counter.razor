@@ -105,6 +105,7 @@
         Blazug.Show(BlazugVisible);
     }
 
+    // sync callback
     protected void OnDecrement()
     {
         currentCount--;
@@ -112,6 +113,7 @@
         StateHasChanged();
     }
 
+    // async ValueTask callback
     protected async ValueTask OnSwitched(bool state)
     {
         if(state == true)
@@ -127,6 +129,7 @@
 
     }
 
+    // async Task callback
     protected async Task OnRadioChanged(int index)
     {
         Blazug.DisplayText("Radio", "Index: " + index.ToString());

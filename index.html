@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Blazug.JS
+    </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <meta name="description" content="Standards for developing consistent, flexible, and sustainable HTML and CSS">
+    <!-- <link rel="canonical" href="https://codeguide.co"> -->
+
+    <link rel="stylesheet" href="./site.css">
+    <link rel="stylesheet" href="./prism.css" />
+    <link rel="stylesheet" href="./blazug.css" />
+
+    <link href="./favicon.ico" rel="icon" type="image/x-icon">
+    <link href="./favicon.svg" rel="icon" type="image/svg+xml">
+
+    <!-- <meta property="og:image" content="https://raw.githubusercontent.com/mdo/code-guide/gh-pages/code-guide-social.png">
+    <meta property="og:title" content="Code Guide">
+    <meta property="og:description" content="Standards for developing consistent, flexible, and sustainable HTML and CSS.">
+    <meta property="og:image:width" content="2000">
+    <meta property="og:image:height" content="1000">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@mdo">
+    <meta name="twitter:title" content="Code Guide">
+    <meta name="twitter:description" content="Standards for developing consistent, flexible, and sustainable HTML and CSS.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/mdo/code-guide/gh-pages/code-guide-social.png"> -->
+
+</head>
+
+<body>
+    <script src="./blazug.js" startup="normal"></script>
+   
+
+    <header class="cg-masthead">
+        <div class="container">
+            <h1 class="cg-masthead-title">
+                Blazug<strong style="font-size: 8rem;color:var(--red)">.</strong>Js
+            </h1>
+
+            <blockquote class="header-quote">
+                (Click the bug at the bottom of the page)
+            </blockquote>
+
+            <p class="cg-masthead-subtitle">
+                Two lines to display the browser's console logs inside your web page.
+            </p>
+
+
+            <p>
+                Created by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> &middot; <a href="https://github.com/qwotapp/blazugjs/">GitHub repo</a>
+            </p>
+
+
+
+        </div>
+    </header>
+
+
+    <main class="container content">
+
+        <h2 id="golden-rule">What is blazug.js ?</h2>
+
+        <p>Blazug is lightweight and simple to use vanilla js library that displays the browser console inside an html page. It is especially helpfull for debugging on mobile website. Blazug also provides some controls to quickly display some text or trigger
+            an action for testing purpose.
+        </p>
+
+        <p>Blazug integrates seamlessly inside Blazor webassembly application. For more information about the nuget package, go to <a href="https://stackoverflow.com/questions/6771258/what-does-meta-http-equiv-x-ua-compatible-content-ie-edge-do">BlazugLib on gihub</a>.</p>
+
+        <h2 id="toc">Table of contents</h2>
+
+
+        <section class="content-responsive">
+            <div>
+                <h3 id="html"><a href="#html">Introduction</a></h3>
+
+                <ul>
+                    <li><a href="#html-syntax">Install</a></li>
+                    <li><a href="#html-syntax">Versioning</a></li>
+                </ul>
+            </div>
+
+
+            <div>
+                <h3 id="css"><a href="#css">Controls</a></h3>
+
+                <ul>
+                    <li><a href="#css-syntax">Display Text</a></li>
+                    <li><a href="#declaration-order">Button</a></li>
+                    <li><a href="#colors">Switcher</a></li>
+                    <li><a href="#logical-properties">Radio Buttons</a></li>
+                </ul>
+
+            </div>
+
+            <div>
+                <h3 id="css"><a href="#css">Controls</a></h3>
+
+                <ul>
+                    <li><a href="#css-syntax">Display Text</a></li>
+                    <li><a href="#declaration-order">Button</a></li>
+                    <li><a href="#colors">Switcher</a></li>
+                    <li><a href="#logical-properties">Radio Buttons</a></li>
+                </ul>
+
+            </div>
+
+        </section>
+
+
+
+
+        <h2 id="html">Install</h2>
+
+        <div>
+            <h3 id="html-syntax">Two lines</h3>
+
+            <ol>
+                <li>
+                    <p>Insert blazug stylesheet <strong style="color:var(--pink)">&lt;link rel='stylesheet' href='./blazug.css'/&gt;</strong> any where inside your html header</p>
+                </li>
+
+                <li>
+                    <p>Insert blazug script <strong style="color:var(--pink)">&lt;script src="./blazug.js"&gt&lt;/script&gt;</strong>at the beginning of the body.</p>
+                </li>
+
+            </ol>
+
+            <blockquote>
+                Then add some console.log() and click on the bug button to watch the console.
+            </blockquote>
+
+        </div>
+
+
+
+
+        <pre class="language-markup"><code><!--
+  <!doctype html>
+  <html lang="en">
+    <head>
+      ...
+      <link rel="stylesheet" href="./blazug.css"/>
+      ...
+    </head>
+    <body>
+      <script src="./blazug.js"></script>
+      ...
+      <script>
+         // play with blazug logs.
+        console.log("👋 from the console.");
+        console.warn("take care.");
+        console.error("something wrong happened. 🤬");
+        console.debugging = true;
+        console.debug("let's de-🐛 it with blazug !!!");
+        // intentionaly raise an exception
+        unknowfunction();
+      </script>
+    </body>
+  </html>
+            --></code></pre>
+
+
+
+
+
+        <div>
+            <h3 id="html5-doctype">HTML5 doctype</h3>
+
+            <p>Enforce <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode">standards mode</a> and more consistent rendering in every browser possible with this simple doctype at the beginning of every HTML page. In
+                keeping with the suggested syntax, keep it lowercase.</p>
+
+        </div>
+
+
+
+      
+
+
+        <footer class="footer">
+            <p>
+                Blazug is open sourced by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> under MIT license.
+            </p>
+
+            <ul class="quick-links">
+                <li class="follow-btn">
+                    <a href="https://twitter.com/icetruckkiller" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @icetruckkiller</a>
+                </li>
+                <!-- <li class="tweet-btn">
+                  <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://xxxxxx.co" data-count="horizontal" data-via="icetruckkiller">Tweet</a>
+              </li> -->
+            </ul>
+
+            <p>
+                Webpage theme has been forked from <a href="https://github.com/mdo/code-guide/">codeguide.co</a>.
+            </p>
+
+
+
+        </footer>
+
+    </main>
+
+
+    <script src="./prism.js"></script>
+
+    <script>
+        // play with blazug logs.
+        console.log("👋 from the console.");
+        console.warn("take care.");
+        console.error("something wrong happened. 🤬");
+        console.debugging = true;
+        console.debug("let's de-🐛 it with blazug !!!");
+        // intentionaly raise an exception
+        unknowfunction();
+    </script>
+
+    <script>
+        // play with blazug controls.
+
+        var i = 0;
+        blazug.displayText("counter⏱️", i, "small");
+        setInterval(() => blazug.displayText("counter⏱️", ++i), 2500);
+
+        blazug.createButton("logs", "Download", "content", (controlId, element) => {
+            blazug.downloadLogs();
+        });
+
+        blazug.createSwitch("toggle",  "True", "False", true, "content", (controlId, state, text, element) => {
+            alert("switch '" + controlId + "' state is '" + text + "' (" + state +").")
+        });
+        
+        blazug.createRadio("theme", ["Light","Dark","Black"], 1, "content", (controlId, index, text, element) => {
+            alert("radio '" + controlId + "' state is '" + text + "' (index: " + index +").")
+        });
+    </script> 
+
+</body>
+
+</html>

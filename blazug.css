@@ -1,0 +1,526 @@
+﻿/*@license blazug Licence MIT */
+
+.blazug {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-size: calc(100vw/45);
+    width: 98%;
+    height: 92%;
+    /*background-color: red;*/
+    margin: 0;
+    z-index: 2147483647;
+    margin: .5% 1% .5% 1%;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+@media screen and (max-width: 640px) {
+    .blazug {
+        font-size: calc(100vw/28);
+    }
+}
+
+
+/* DEBUG TOGGLE BUTTON */
+
+.blazug>div:first-child {
+    font-size: 1em;
+    line-height: 1em;
+    pointer-events: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.blazug>div:first-child>button {
+    font-size: calc(640px/30);
+    line-height: 1em;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    border: 5px solid rgba(192, 0, 0, .7);
+    pointer-events: auto;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 640px) {
+    .blazug>div:first-child>button {
+        font-size: 1em;
+    }
+}
+
+.blazug>div:first-child>button>svg {
+    font-size: 1em;
+    line-height: 1em;
+    width: 2.5em;
+    height: 2.5em;
+    margin: 0.7em;
+    transition-duration: 0.15s;
+    transition-property: transform;
+    transition-timing-function: ease-out;
+}
+
+.blazug>div:first-child>button:hover>svg {
+    transform: scale(1.2);
+}
+
+.blazug>div:first-child>button:not(hover)>svg {
+    transform: scale(1.0);
+}
+
+.blazug>div:first-child>button>svg>path {
+    fill: orangered;
+}
+
+.blazug>div:first-child>button:active>svg>path {
+    fill-opacity: 0.6;
+}
+
+
+/* INSPECTOR */
+
+.blazug-inspector {
+    font-size: calc(640px/35);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 0.3em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 5em;
+    width: 640px;
+    padding-top: .3em;
+    margin: 1em 0em 1em 0em;
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+@media screen and (max-width: 640px) {
+    .blazug-inspector {
+        width: 100%;
+        font-size: 1em;
+    }
+}
+
+.blazug-inspector[hidden] {
+    display: none;
+}
+
+.blazug-inspector:not([hidden]) {
+    display: flex;
+}
+
+
+/* Items */
+
+.blazug-control {
+    /*background-color: green;*/
+    color: black;
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.blazug-control>.blazug-control-id {
+    display: inline-block;
+    /*background-color: blue;*/
+    font-size: 1em;
+    line-height: 1em;
+    z-index: 11;
+}
+
+.blazug-control>.blazug-control-id>strong {
+    background-color: white;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.0em 0.2em 0.0em 0.2em;
+    margin: 0;
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.0em;
+    border-bottom-right-radius: 0.0em;
+    border-top: 1px solid black;
+    /*border-bottom: 1px dotted rgba(0, 0, 0, 0.3);*/
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.blazug-control>.blazug-control {
+    background-color: white;
+    font-size: 1.3em;
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+    border-top-left-radius: 0.0em;
+    border-top-right-radius: 0.3em;
+    border-bottom-left-radius: 0.3em;
+    border-bottom-right-radius: 0.3em;
+    border: 1px solid black;
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.blazug-flash-on-change {
+    animation: blazug-anim-flash 0.5s linear;
+}
+
+@keyframes blazug-anim-flash {
+    20% {
+        background-color: orangered;
+        color: white;
+    }
+    40% {
+        background-color: white;
+        color: black;
+    }
+    60% {
+        background-color: orangered;
+        color: white;
+    }
+}
+
+.blazug-control[minsize="small"] {
+    min-width: 8.1em;
+}
+
+.blazug-control[minsize="medium"] {
+    min-width: 12.18em;
+}
+
+.blazug-control[minsize="large"] {
+    min-width: 16.2em;
+}
+
+.blazug-control[minsize="max"] {
+    min-width: 96.5%;
+}
+
+.blazug-control>.blazug-control-padding {
+    padding: 0.2em;
+}
+
+
+/* Switch */
+
+.blazug-switch {
+    font-size: 1em;
+    position: relative;
+    display: inline-block;
+    width: 1.8em;
+    height: 1.0em;
+    pointer-events: auto;
+}
+
+.blazug-switch input {
+    visibility: hidden;
+}
+
+.blazug-slider {
+    font-size: 1em;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .2s;
+    border-radius: 1.0em;
+}
+
+.blazug-slider:before {
+    position: absolute;
+    content: "";
+    height: 0.80em;
+    width: 0.80em;
+    left: 0.1em;
+    bottom: 0.1em;
+    background-color: white;
+    transition: .2s;
+    border-radius: 50%;
+}
+
+input:checked+.blazug-slider {
+    background-color: #2196F3;
+}
+
+input:checked+.blazug-slider:before {
+    transform: translateX(0.8em);
+}
+
+.blazug-switch-label {
+    font-size: 1em;
+    line-height: 1em;
+    padding: 0.0em 0.2em 0.0em 0.2em;
+    margin: 0;
+    pointer-events: auto;
+}
+
+
+/* radio button */
+
+.blazug-radio>input+label {
+    background: white;
+}
+
+.blazug-radio>input:checked+label {
+    background: #2196F3;
+    color: white;
+}
+
+
+/*.blazug-radio > input:not(checked):hover + label {
+    background: #ddd;
+}
+*/
+
+.blazug-radio {
+    font-size: 1em;
+    /*display: inline-block;*/
+    vertical-align: middle;
+    pointer-events: auto;
+}
+
+.blazug-radio>input[type='radio'] {
+    display: none;
+}
+
+.blazug-radio>input+label {
+    font-size: 1em;
+    line-height: 1em;
+    margin-bottom: 0;
+    padding: 0.2em;
+    cursor: pointer;
+    align-items: center;
+    /*display: inline-block;*/
+    float: left;
+    border-radius: 0;
+    border: none;
+    /*border-left: 2px solid rgba(0,0,0,.6);*/
+}
+
+.blazug-radio>input:not(first-child)+label {
+    border-right: 1px solid rgba(0, 0, 0, .6);
+}
+
+.blazug-radio>input:checked+label {
+    transition: background .2s linear;
+}
+
+.blazug-radio>input+label:before {
+    display: none;
+}
+
+
+/* button */
+
+.blazog-button {
+    font-size: 1em;
+    line-height: 1em;
+    margin: 0;
+    padding: 0.2em;
+    cursor: pointer;
+    background: #2196F3;
+    color: white;
+    pointer-events: auto;
+    border-radius: 0;
+    border: none;
+    transition-duration: 0.3s;
+}
+
+.blazog-button:hover {
+    background: #0969C0;
+}
+
+.blazog-button:active {
+    background: #ddd;
+}
+
+
+/* CONSOLE */
+
+.blazug-console {
+    font-size: calc(1280px/80);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 0.3em;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 20em;
+    height: 100%;
+    width: 1280px;
+    padding-top: .3em;
+    margin: .2em 0em 1em 0em;
+    pointer-events: auto;
+    overflow-y: scroll;
+}
+
+@media screen and (max-width: 1280px) {
+    .blazug-console {
+        width: 100%;
+        font-size: 1em;
+    }
+}
+
+.blazug-console[hidden] {
+    display: none;
+}
+
+.blazug-console:not([hidden]) {
+    display: flex;
+}
+
+.blazug-console>div {
+    font-size: 1em;
+    line-height: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    /*background: blue;*/
+    padding: 0.0em 0.1em 0.8em 0.1em;
+    align-items: center;
+}
+
+.blazug-console>div>span:first-child {
+    font-size: 1em;
+    line-height: 1em;
+    background-color: darkgray;
+    color: black;
+    border-radius: 0.3em;
+    padding: 0.1em;
+    margin: 0.2em 0.5em 0.2em 0.5em;
+    min-width: 2em;
+    max-height: 1.2em;
+    text-align: center;
+}
+
+.blazug-console>div[loglevel="log"]>span:first-child {
+    background-color: white;
+    color: black;
+}
+
+.blazug-console>div[loglevel="log"]>span:first-child::after {
+    content: "log";
+}
+
+.blazug-console>div[loglevel="info"]>span:first-child {
+    background-color: white;
+    color: black;
+}
+
+.blazug-console>div[loglevel="info"]>span:first-child::after {
+    content: "nfo";
+}
+
+.blazug-console>div[loglevel="error"]>span:first-child {
+    background-color: orangered;
+    color: black;
+}
+
+.blazug-console>div[loglevel="error"]>span:first-child::after {
+    content: "err";
+}
+
+.blazug-console>div[loglevel="warn"]>span:first-child {
+    background-color: orange;
+    color: black;
+}
+
+.blazug-console>div[loglevel="warn"]>span:first-child::after {
+    content: "wrn";
+}
+
+.blazug-console>div[loglevel="debug"]>span:first-child {
+    background-color: mediumseagreen;
+    color: black;
+}
+
+.blazug-console>div[loglevel="debug"]>span:first-child::after {
+    content: "dbg";
+}
+
+.blazug-console>div[loglevel="exception"]>span:first-child {
+    background-color: magenta;
+    color: black;
+}
+
+.blazug-console>div[loglevel="exception"]>span:first-child::after {
+    content: "ex";
+}
+
+.blazug-console>div[loglevel="promise"]>span:first-child {
+    background-color: magenta;
+    color: black;
+}
+
+.blazug-console>div[loglevel="promise"]>span:first-child::after {
+    content: "pro";
+}
+
+.blazug-console>div>span:nth-child(2) {
+    font-size: 1em;
+    line-height: 1em;
+    /*background: red;*/
+    color: white;
+    word-break: break-all;
+}
+
+
+
+.blazug-notification{
+    position : fixed;
+    width: 50px;
+    height: 50px;
+    top : -5em;
+    background-color: #2196F3;
+    color:white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1.5em 0 1.5em;
+    font-size: 1.5em;
+    border-radius: 0.5em;
+    border: 2px solid white;
+    opacity: 0;
+}
+
+.blazug-notification-animation {
+    animation: blazug-anim-notification 1s linear;
+}
+
+@keyframes blazug-anim-notification {
+    0% {
+        opacity: 0;
+        top : 1em;
+    }
+    10% {
+        opacity: 1;
+        top : 1em;
+    }
+ 
+    70% {
+        opacity: 1;
+        top : 1em;
+    }
+    100% {
+        opacity: 1;
+        top : -5em;
+    }
+
+}
+
