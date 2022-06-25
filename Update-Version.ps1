@@ -25,10 +25,13 @@ $versionStrL = "blazug@" + $version
 $versionStrU = "Blazug@" + $version
 
 # Load Content
+$cssFileName = .\blazug.css
+$jsFileName = .\blazug.js
+$htmlFileName = .\index.html
 
-$cssFile = Get-Content -Path .\blazug.css
-$jsFile = Get-Content -Path .\blazug.js
-$htmlFile = Get-Content -Path .\index.html
+$cssFile = Get-Content -Path $cssFileName
+$jsFile = Get-Content -Path $jsFileName
+$htmlFile = Get-Content -Path $htmlFileName
 
 # Get verions tags count
 
@@ -40,7 +43,7 @@ $htmlCount = ([regex]::Matches($htmlFile, $previousVersionStrU )).count
 
 if($cssCount -ne 2)
 {
-    Write-Host `n$versionStrL should appear 2 time in $cssFile. It has been found $cssCount times`n -ForegroundColor Magenta
+    Write-Host `n$versionStrL should appear 2 time in $cssFileName. It has been found $cssCount times`n -ForegroundColor Magenta
     return
 }
 
