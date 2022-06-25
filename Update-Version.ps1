@@ -41,12 +41,23 @@ $jsCount = ([regex]::Matches($jsFile, $previousVersionStrL )).count
 
 $htmlCount = ([regex]::Matches($htmlFile, $previousVersionStrU )).count
 
-if($cssCount -ne 2)
+if($cssCount -ne 1)
 {
-    Write-Host `n`'$versionStrL`' has been found $cssCount times in $cssFileName but should appear 2 time`n -ForegroundColor Magenta
+    Write-Host `n`'$versionStrL`' has been found $cssCount time(s) in $cssFileName but it should appear 1 time(s)`n -ForegroundColor Magenta
     return
 }
 
+if($jsCount -ne 2)
+{
+    Write-Host `n`'$versionStrL`' has been found $jsCount time(s) in $jsFileName but it should appear 2 time(s)`n -ForegroundColor Magenta
+    return
+}
+
+if($htmlCount -ne 4)
+{
+    Write-Host `n`'$versionStrL`' has been found $htmlCount time(s) in $htmlFileName but it should appear 4 time(s)`n -ForegroundColor Magenta
+    return
+}
 
 
 Write-Host $cssCount $jsCount $htmlCount
