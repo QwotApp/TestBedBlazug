@@ -36,9 +36,9 @@ $versionStrL = "blazug@" + $version
 $versionStrU = "Blazug@" + $version
 
 # Load Content
-$cssFileName = ".\blazug.css"
-$jsFileName = ".\blazug.js"
-$htmlFileName = ".\index.html"
+$cssFileName = "..\blazug.css"
+$jsFileName = "..\blazug.js"
+$htmlFileName = "..\index.html"
 
 $cssFile = Get-Content -Path $cssFileName
 $jsFile = Get-Content -Path $jsFileName
