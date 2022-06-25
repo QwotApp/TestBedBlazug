@@ -1,4 +1,4 @@
-﻿/*@license blazug Licence MIT */
+﻿/* blazug@2.1.5 | (c) Qwot | https://github.com/QwotApp/TestBedBlazug/blob/main/LICENSE */
 
 .blazug {
     position: fixed;
@@ -35,7 +35,7 @@
     justify-content: center;
 }
 
-.blazug>div:first-child>button {
+.blazug>div:first-child>div {
     font-size: calc(640px/30);
     line-height: 1em;
     background: rgba(0, 0, 0, 0.8);
@@ -48,12 +48,12 @@
 }
 
 @media screen and (max-width: 640px) {
-    .blazug>div:first-child>button {
+    .blazug>div:first-child>div {
         font-size: 1em;
     }
 }
 
-.blazug>div:first-child>button>svg {
+.blazug>div:first-child>div>svg {
     font-size: 1em;
     line-height: 1em;
     width: 2.5em;
@@ -64,21 +64,22 @@
     transition-timing-function: ease-out;
 }
 
-.blazug>div:first-child>button:hover>svg {
+.blazug>div:first-child>div:hover>svg {
     transform: scale(1.2);
 }
 
-.blazug>div:first-child>button:not(hover)>svg {
+.blazug>div:first-child>div:not(hover)>svg {
     transform: scale(1.0);
 }
 
-.blazug>div:first-child>button>svg>path {
+.blazug>div:first-child>div>svg>path {
     fill: orangered;
 }
 
-.blazug>div:first-child>button:active>svg>path {
+.blazug>div:first-child>div:active>svg>path {
     fill-opacity: 0.6;
 }
+
 
 
 /* INSPECTOR */
@@ -96,12 +97,9 @@
     width: 640px;
     padding-top: .3em;
     margin: 1em 0em 1em 0em;
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
     user-select: none;
-    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 @media screen and (max-width: 640px) {
@@ -155,7 +153,7 @@
     border-right: 1px solid black;
 }
 
-.blazug-control>.blazug-control {
+.blazug-control>.blazug-control-item {
     background-color: white;
     font-size: 1.3em;
     line-height: 1em;
@@ -209,6 +207,17 @@
 
 .blazug-control>.blazug-control-padding {
     padding: 0.2em;
+}
+
+/* Text */
+.blazug-text {
+    font-size: 1em;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    -webkit-touch-callout: text; /* iOS Safari */
+    -webkit-user-select: text; /* Safari */
+    user-select: text;
 }
 
 
@@ -266,6 +275,7 @@ input:checked+.blazug-slider:before {
     padding: 0.0em 0.2em 0.0em 0.2em;
     margin: 0;
     pointer-events: auto;
+    cursor: pointer;
 }
 
 
@@ -480,47 +490,49 @@ input:checked+.blazug-slider:before {
 }
 
 
-
+/* notification (clipboard) */
 .blazug-notification{
     position : fixed;
-    width: 50px;
-    height: 50px;
-    top : -5em;
+    top : -3em;
     background-color: #2196F3;
     color:white;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0 1.5em 0 1.5em;
+    padding: 0 0.2em 0 .4em;
     font-size: 1.5em;
-    border-radius: 0.5em;
+    border-radius: 0.3em;
     border: 2px solid white;
-    opacity: 0;
+    visibility:hidden;
+}
+
+.blazug-notification:after{
+    content: "Copied 📋"
 }
 
 .blazug-notification-animation {
-    animation: blazug-anim-notification 1s linear;
+    animation: blazug-anim-notification 2s linear;
 }
 
 @keyframes blazug-anim-notification {
     0% {
-        opacity: 0;
-        top : 1em;
-    }
-    10% {
-        opacity: 1;
-        top : 1em;
-    }
- 
-    70% {
-        opacity: 1;
-        top : 1em;
-    }
-    100% {
-        opacity: 1;
-        top : -5em;
+        visibility:visible;
+        top : -3em;
     }
 
+    20% {
+        visibility:visible;
+        top : .5em;
+    }
+ 
+    80% {
+        visibility:visible;
+        top : .5em;
+    }
+    100% {
+        visibility:hidden;
+        top : -3em;
+    }
 }
 

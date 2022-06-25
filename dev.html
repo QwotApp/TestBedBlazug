@@ -51,10 +51,15 @@
         // play with blazug controls.
 
         // display a text control (can be called multiple times)
+
+        blazug.displayText("version", blazug.getVersion());
+
         var i = 0;
-        blazug.displayText("⏱️counter⏱️", i, "medium");
+        blazug.displayText("⏱️counter⏱️", i);
         setInterval(() => blazug.displayText("⏱️counter⏱️", ++i), 2500);
 
+
+        
 
         blazug.createButton("logs", "Download", (controlId, element) => {
             blazug.downloadLogs();

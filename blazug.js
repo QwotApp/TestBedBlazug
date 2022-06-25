@@ -1,4 +1,4 @@
-/* @license  blazug/MIT */
+/* blazug@2.1.5 | (c) Qwot | https://github.com/QwotApp/TestBedBlazug/blob/main/LICENSE */
 
 (function (blazug) {
   var _initialized = false;
@@ -18,6 +18,8 @@
   var _radioControls = new Object();
 
   var _logs = [];
+
+  const getVersion = () => "blazug@2.1.8".replace("blazug@",""); // for easy versioning increment.
 
   const init = () => {
     if (_initialized == true) {
@@ -142,26 +144,30 @@
     }
 
     if (!_textControls.hasOwnProperty(controlId)) {
-      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control blazug-control-padding"></div></div>`;
+      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control-item blazug-control-padding"><div class="blazug-text"></div></div></div>`;
 
       let textElement = createDomElementFromHtmlString(html);
 
-      textElement.setAttribute("minsize", minsize);
+      textElement.setAttribute("minsize", minsize ?? "small");
 
       _inspectorElement.appendChild(textElement);
 
-      _textControls[controlId] = textElement.querySelector(".blazug-control");
+      _textControls[controlId] = textElement.querySelector(".blazug-control-item");
     }
+  
 
-    let textElement = _textControls[controlId];
+    let itemElement = _textControls[controlId];
+
+    let textElement = _textControls[controlId].querySelector(".blazug-text");
+
 
     textElement.innerText = value;
 
     // flash
 
-    textElement.classList.remove("blazug-flash-on-change");
+    itemElement.classList.remove("blazug-flash-on-change");
 
-    setTimeout(() => textElement.classList.add("blazug-flash-on-change"), 100);
+    setTimeout(() => itemElement.classList.add("blazug-flash-on-change"), 100);
   };
 
   const createButton = (...args) => {
@@ -186,7 +192,7 @@
     let minsize = arguments.hasOwnProperty("val1") ? arguments.val1 : "content";
 
     if (!_buttonControls.hasOwnProperty(controlId)) {
-      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control"><button class="blazog-button"></button></div></div>`;
+      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control-item"><button class="blazog-button" type="button">${buttonText}</button></div></div>`;
 
       let buttonElement = createDomElementFromHtmlString(html);
 
@@ -196,7 +202,7 @@
 
       _buttonControls[controlId] = buttonElement.querySelector(".blazog-button");
 
-      _buttonControls[controlId].innerText = buttonText;
+      //_buttonControls[controlId].innerText = buttonText;
 
       _buttonControls[controlId].onclick = async () => {
         if (callback != null) {
@@ -244,7 +250,7 @@
     let minsize = arguments.hasOwnProperty("val3") ? arguments.val3 : "small";
 
     if (!_switchControls.hasOwnProperty(controlId)) {
-      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control blazug-control-padding"><label class="blazug-switch"><input type="checkbox"><span class="blazug-slider"></span></label><span class="blazug-switch-label"></span></div></div>`;
+      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control-item blazug-control-padding"><label class="blazug-switch"><input type="checkbox"><span class="blazug-slider"></span></label><span class="blazug-switch-label"></span></div></div>`;
 
       let switchElement = createDomElementFromHtmlString(html);
 
@@ -254,9 +260,9 @@
 
       _switchControls[controlId] = switchElement;
 
-      let label = _switchControls[controlId].querySelector(".blazug-control>.blazug-control>.blazug-switch-label");
+      let label = _switchControls[controlId].querySelector(".blazug-control>.blazug-control-item>.blazug-switch-label");
 
-      let input = _switchControls[controlId].querySelector(".blazug-control>.blazug-control>.blazug-switch>input");
+      let input = _switchControls[controlId].querySelector(".blazug-control>.blazug-control-item>.blazug-switch>input");
 
       label.innerText = initialState ? switchTextWhenOn : switchTextWhenOff;
 
@@ -339,7 +345,7 @@
         buttonsHtml += `<input type="radio" id="${idButton}" value="${idButton}" name="${idGroup}" ${checked}><label for="${idButton}">${buttonText}</label>`;
       }
 
-      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control"><span class="blazug-radio">${buttonsHtml}</span></div></div>`;
+      let html = `<div class="blazug-control"><div class="blazug-control-id"><strong>${controlId}</strong></div><div class="blazug-control-item"><span class="blazug-radio">${buttonsHtml}</span></div></div>`;
 
       let radioElement = createDomElementFromHtmlString(html);
 
@@ -349,7 +355,7 @@
 
       _radioControls[controlId] = radioElement;
 
-      let inputs = radioElement.querySelectorAll(".blazug-control>.blazug-control>.blazug-radio>input");
+      let inputs = radioElement.querySelectorAll(".blazug-control>.blazug-control-item>.blazug-radio>input");
 
       for (var i = 0; i < inputs.length; i++) {
         let input = inputs[i];
@@ -407,7 +413,7 @@
       return;
     }
 
-    let html = `<div class="blazug"><div><button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M352 96V99.56C352 115.3 339.3 128 323.6 128H188.4C172.7 128 159.1 115.3 159.1 99.56V96C159.1 42.98 202.1 0 255.1 0C309 0 352 42.98 352 96zM41.37 105.4C53.87 92.88 74.13 92.88 86.63 105.4L150.6 169.4C151.3 170 151.9 170.7 152.5 171.4C166.8 164.1 182.9 160 199.1 160H312C329.1 160 345.2 164.1 359.5 171.4C360.1 170.7 360.7 170 361.4 169.4L425.4 105.4C437.9 92.88 458.1 92.88 470.6 105.4C483.1 117.9 483.1 138.1 470.6 150.6L406.6 214.6C405.1 215.3 405.3 215.9 404.6 216.5C410.7 228.5 414.6 241.9 415.7 256H480C497.7 256 512 270.3 512 288C512 305.7 497.7 320 480 320H416C416 344.6 410.5 367.8 400.6 388.6C402.7 389.9 404.8 391.5 406.6 393.4L470.6 457.4C483.1 469.9 483.1 490.1 470.6 502.6C458.1 515.1 437.9 515.1 425.4 502.6L362.3 439.6C337.8 461.4 306.5 475.8 272 479.2V240C272 231.2 264.8 224 255.1 224C247.2 224 239.1 231.2 239.1 240V479.2C205.5 475.8 174.2 461.4 149.7 439.6L86.63 502.6C74.13 515.1 53.87 515.1 41.37 502.6C28.88 490.1 28.88 469.9 41.37 457.4L105.4 393.4C107.2 391.5 109.3 389.9 111.4 388.6C101.5 367.8 96 344.6 96 320H32C14.33 320 0 305.7 0 288C0 270.3 14.33 256 32 256H96.3C97.38 241.9 101.3 228.5 107.4 216.5C106.7 215.9 106 215.3 105.4 214.6L41.37 150.6C28.88 138.1 28.88 117.9 41.37 105.4H41.37z"/></svg></button></div><div class="blazug-inspector" hidden></div><div class="blazug-console" hidden></div><div class="blazug-notification">Copied</div></div>`;
+    let html = `<div class="blazug"><div><div type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M352 96V99.56C352 115.3 339.3 128 323.6 128H188.4C172.7 128 159.1 115.3 159.1 99.56V96C159.1 42.98 202.1 0 255.1 0C309 0 352 42.98 352 96zM41.37 105.4C53.87 92.88 74.13 92.88 86.63 105.4L150.6 169.4C151.3 170 151.9 170.7 152.5 171.4C166.8 164.1 182.9 160 199.1 160H312C329.1 160 345.2 164.1 359.5 171.4C360.1 170.7 360.7 170 361.4 169.4L425.4 105.4C437.9 92.88 458.1 92.88 470.6 105.4C483.1 117.9 483.1 138.1 470.6 150.6L406.6 214.6C405.1 215.3 405.3 215.9 404.6 216.5C410.7 228.5 414.6 241.9 415.7 256H480C497.7 256 512 270.3 512 288C512 305.7 497.7 320 480 320H416C416 344.6 410.5 367.8 400.6 388.6C402.7 389.9 404.8 391.5 406.6 393.4L470.6 457.4C483.1 469.9 483.1 490.1 470.6 502.6C458.1 515.1 437.9 515.1 425.4 502.6L362.3 439.6C337.8 461.4 306.5 475.8 272 479.2V240C272 231.2 264.8 224 255.1 224C247.2 224 239.1 231.2 239.1 240V479.2C205.5 475.8 174.2 461.4 149.7 439.6L86.63 502.6C74.13 515.1 53.87 515.1 41.37 502.6C28.88 490.1 28.88 469.9 41.37 457.4L105.4 393.4C107.2 391.5 109.3 389.9 111.4 388.6C101.5 367.8 96 344.6 96 320H32C14.33 320 0 305.7 0 288C0 270.3 14.33 256 32 256H96.3C97.38 241.9 101.3 228.5 107.4 216.5C106.7 215.9 106 215.3 105.4 214.6L41.37 150.6C28.88 138.1 28.88 117.9 41.37 105.4H41.37z"/></svg></div></div><div class="blazug-inspector" hidden></div><div class="blazug-console" hidden></div><div class="blazug-notification"></div></div>`;
 
     _blazugElement = createDomElementFromHtmlString(html);
 
@@ -419,7 +425,7 @@
 
     //_notificationElement.style.visibility = "hidden";
 
-    let blazugToggleButton = _blazugElement.querySelector(".blazug > div:first-child > button");
+    let blazugToggleButton = _blazugElement.querySelector(".blazug > div:first-child > div");
 
     blazugToggleButton.onclick = async () => {
       let consoleVisible = _consoleElement.getAttribute("hidden") == null;
@@ -437,14 +443,6 @@
         blazug.display("console");
       }
     };
-
-    // let attribut = document.currentScript.getAttribute("hiddenAtStartup");
-
-    // let hiddenAtStartup = attribut == "" || (attribut != null ? attribut.toLowerCase() == "true" : false);
-
-    // if (hiddenAtStartup) {
-    //   _blazugElement.setAttribute("hidden", "");
-    // }
 
     let startUpAttribut = document.currentScript.getAttribute("startup");
 
@@ -591,6 +589,8 @@
     return div.firstChild;
   };
 
+  
+  blazug.getVersion = getVersion;
   blazug.initDotnet = initDotnet;
   blazug.display = display;
   blazug.setMaxLogs = setMaxLogs;
