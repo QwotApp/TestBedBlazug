@@ -1,6 +1,17 @@
 # updates version strings in files and sets git tag.
 
 # Check if everything is committed.
+
+$currentBranch = git rev-parse --abbrev-ref HEAD
+
+Write-Host `n$currentBranch `n
+
+if($currentBranch -ne "main")
+{
+    Write-Host you must be in the `'main`' branch`n -ForegroundColor Magenta
+    return
+}
+
 $uncommitted = git status --porcelain
 
 if($uncommitted.length -ne 0)
@@ -62,11 +73,11 @@ if($htmlCount -ne 4)
 
 Write-Host $cssCount $jsCount $htmlCount
 
-
-
 # Replace version tags
-
 
 $cssFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath .\blazug.css
 $jsFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath .\blazug.js
 $htmlFile.replace($previousVersionStrU,$versionStrU) | Out-File -FilePath .\index.html
+
+# Set git tag.
+git tag $version
