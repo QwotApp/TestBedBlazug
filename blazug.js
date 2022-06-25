@@ -19,7 +19,7 @@
 
   var _logs = [];
 
-  const getVersion = () => "blazug@2.1.8".replace("blazug@",""); // for easy versioning increment.
+  const getVersion = () => "blazug@2.1.5".replace("blazug@",""); // for easy versioning increment.
 
   const init = () => {
     if (_initialized == true) {

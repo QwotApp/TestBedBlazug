@@ -1,3 +1,4 @@
+# Increment version 
 $previousVersion = git describe --abbrev=0 --tags $(git rev-list --tags --skip=0 --max-count=1)
 
 $version = [int]($previousVersion.Split("-"))[0].Replace(".","")+1
@@ -6,23 +7,32 @@ $version = $version.Insert($version.length-1,".").Insert($version.length-2,".")
 
 Write-Host $previousVersion "->" $version
 
+$previousVersionStrL = "blazug@" + $previousVersion
+$previousVersionStrU = "Blazug@" + $previousVersion
+$versionStrL = "blazug@" + $version
+$versionStrU = "Blazug@" + $version
 
-
-$previousVersionStr = "blazug@" + $lastVersion
-$versionStr = "blazug@" + $version
+# Load Content
 
 $cssFile = Get-Content -Path .\blazug.css
-$cssCount = ([regex]::Matches($cssFile, $previousVersionStr )).count
-
-$jsFile = Get-Content -Path .\blazug.css
-$jsCount = ([regex]::Matches($jsFile, $previousVersionStr )).count
-
+$jsFile = Get-Content -Path .\blazug.js
 $htmlFile = Get-Content -Path .\index.html
-$htmlCount = ([regex]::Matches($htmlFile, $previousVersionStr )).count
+
+# Get verions tags count
+
+$cssCount = ([regex]::Matches($cssFile, $previousVersionStrL )).count
+
+$jsCount = ([regex]::Matches($jsFile, $previousVersionStrL )).count
+
+$htmlCount = ([regex]::Matches($htmlFile, $previousVersionStrU )).count
 
 Write-Host $cssCount $jsCount $htmlCount
 
 
-$string.replace($cssFile,$versionStr) | Out-File -FilePath .\Process.txt
-$string.replace($jsFile,$versionStr)
-$string.replace($htmlFile,$versionStr)
+
+# Replace version tags
+
+
+$cssFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath .\blazug.css
+$jsFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath .\blazug.js
+$htmlFile.replace($previousVersionStrU,$versionStrU) | Out-File -FilePath .\index.html
