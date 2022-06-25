@@ -43,7 +43,7 @@ $htmlCount = ([regex]::Matches($htmlFile, $previousVersionStrU )).count
 
 if($cssCount -ne 2)
 {
-    Write-Host `n$versionStrL should appear 2 time in $cssFileName. It has been found $cssCount times`n -ForegroundColor Magenta
+    Write-Host `n$versionStrL should appear 2 time in '$cssFileName'. It has been found $cssCount times`n -ForegroundColor Magenta
     return
 }
 
