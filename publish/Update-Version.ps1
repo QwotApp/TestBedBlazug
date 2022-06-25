@@ -4,7 +4,7 @@
 
 $currentBranch = git rev-parse --abbrev-ref HEAD
 
-Write-Host `n$currentBranch `n
+#Write-Host `n$currentBranch `n
 
 if($currentBranch -ne "main")
 {
@@ -70,14 +70,11 @@ if($htmlCount -ne 4)
     return
 }
 
-
-Write-Host $cssCount $jsCount $htmlCount
-
 # Replace version tags
 
-$cssFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath .\blazug.css
-$jsFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath .\blazug.js
-$htmlFile.replace($previousVersionStrU,$versionStrU) | Out-File -FilePath .\index.html
+$cssFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath $cssFileName
+$jsFile.replace($previousVersionStrL,$versionStrL) | Out-File -FilePath $jsFileName
+$htmlFile.replace($previousVersionStrU,$versionStrU) | Out-File -FilePath $htmlFileName
 
 # Set git tag.
 git tag $version
