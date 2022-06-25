@@ -1,3 +1,14 @@
+# updates version strings in files and sets git tag.
+
+# Check if everything is committed.
+$uncommitted = git status --porcelain
+
+if($uncommitted -ne 0)
+{
+    Write-Host Please commit everything before updating version.
+    return
+}
+
 # Increment version 
 $previousVersion = git describe --abbrev=0 --tags $(git rev-list --tags --skip=0 --max-count=1)
 
@@ -25,6 +36,14 @@ $cssCount = ([regex]::Matches($cssFile, $previousVersionStrL )).count
 $jsCount = ([regex]::Matches($jsFile, $previousVersionStrL )).count
 
 $htmlCount = ([regex]::Matches($htmlFile, $previousVersionStrU )).count
+
+if($cssCount -ne 2)
+{
+    Write-Host $versionStrL should appear 2 time in $cssFile. It has been found $cssCount times
+    return
+}
+
+
 
 Write-Host $cssCount $jsCount $htmlCount
 
