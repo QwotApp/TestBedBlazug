@@ -21,11 +21,21 @@ if($uncommitted.length -ne 0)
     return
 }
 
+# confirm
+
+$version = git describe --abbrev=0 --tags $(git rev-list --tags --skip=0 --max-count=1)
+$versionString = "#Release Blazug@" + $version
+
+$confirmation = Read-Host "Are you sure you want to publish `'" + $versionString "`'."
+if ($confirmation -ne 'y') {
+    return
+}
+
 #change branch to release
 
 git checkout release
 
-git merge main
+git merge main -m $versionString
 
 git push
 
