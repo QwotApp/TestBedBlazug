@@ -3,9 +3,10 @@
 # Check if everything is committed.
 $uncommitted = git status --porcelain
 
-if($uncommitted -ne 0)
+if($uncommitted.length -ne 0)
 {
-    Write-Host Please commit everything before updating version.
+    Write-Host `n$uncommitted `n
+    Write-Host Please commit everything before updating version.`n -ForegroundColor Magenta
     return
 }
 
@@ -39,7 +40,7 @@ $htmlCount = ([regex]::Matches($htmlFile, $previousVersionStrU )).count
 
 if($cssCount -ne 2)
 {
-    Write-Host $versionStrL should appear 2 time in $cssFile. It has been found $cssCount times
+    Write-Host `n$versionStrL should appear 2 time in $cssFile. It has been found $cssCount times`n -ForegroundColor Magenta
     return
 }
 
