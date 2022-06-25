@@ -29,10 +29,10 @@ jobs:
     - name: Determine version
       uses: gittools/actions/gitversion/execute@v0.9.7
 
-    - name: Install .NET Core
-      uses: actions/checkout@v3
-      with:
-        dotnet-version: '6.0.x'
+    # - name: Install .NET Core
+    #   uses: actions/checkout@v3
+    #   with:
+    #     dotnet-version: '6.0.x'
 
     - name: Versions
     #- name: Version v${{ env.GITVERSION_MAJORMINORPATCH }} built with dotnet v${{ env.DOTNETCORE_VERSION }}
@@ -49,11 +49,11 @@ jobs:
         echo "dotnet runtimes"
         echo "`dotnet --list-runtimes`"
  
-    - name: Restore
-      run: dotnet restore ./BlazugDemo
+    # - name: Restore
+    #   run: dotnet restore ./BlazugDemo
 
-    - name: Build
-      run: dotnet build ./BlazugDemo --configuration Release --no-restore
+    # - name: Build
+    #   run: dotnet build ./BlazugDemo --configuration Release --no-restore
  
     # - name: Pack
     #   run: dotnet pack .\BlazugDemo\ --configuration Release --no-restore
