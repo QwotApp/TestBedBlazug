@@ -26,7 +26,7 @@ if($uncommitted.length -ne 0)
 $version = git describe --abbrev=0 --tags $(git rev-list --tags --skip=0 --max-count=1)
 $versionString = "#Release Blazug@" + $version
 
-$confirmation = Read-Host "Are you sure you want to publish `'" + $versionString "`'."
+$confirmation = Read-Host "Are you sure you want to publish `'"$versionString"`'."
 if ($confirmation -ne 'y') {
     return
 }
