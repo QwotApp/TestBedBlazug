@@ -18,14 +18,9 @@ jobs:
     - name: Versions
       shell: pwsh
       run: |
-        $currentVersion = git rev-parse --abbrev-ref HEAD
-        echo "CURRENTVERSION=$containerName" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
+        $currentVersion = git describe --abbrev=0 --tags $(git rev-list --tags --skip=0 --max-count=1)
+        echo "CURRENTVERSION=$currentVersion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
         Write-Host $currentVersion
-
-    - name: Env List
-      run: |
-        printenv 
-        env 
 
     - name: Release notes and files
       uses: ncipollo/release-action@v1
