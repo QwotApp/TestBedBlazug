@@ -1,0 +1,74 @@
+name: Publish Release Version
+
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    name: Build and Push Package
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Fetch Tags
+      run: git fetch --prune --unshallow   
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+          versionSpec: '5.x'
+    
+    - name: Determine version
+      uses: gittools/actions/gitversion/execute@v0.9.7
+
+    # - name: Install .NET Core
+    #   uses: actions/checkout@v3
+    #   with:
+    #     dotnet-version: '6.0.x'
+
+    - name: Versions
+    #- name: Version v${{ env.GITVERSION_MAJORMINORPATCH }} built with dotnet v${{ env.DOTNETCORE_VERSION }}
+    # echo "DOTNETCORE_VERSION=`dotnet --version`" >> $GITHUB_ENV
+      run: |
+        echo
+        echo "$GitVersion_BranchName"
+        echo "$GITHUB_REPOSITORY"
+        echo "$GITVERSION_MAJORMINORPATCH"
+        echo
+        echo "dotnet sdk"
+        echo "`dotnet --list-sdks`"
+        echo
+        echo "dotnet runtimes"
+        echo "`dotnet --list-runtimes`"
+ 
+    # - name: Restore
+    #   run: dotnet restore ./BlazugDemo
+
+    # - name: Build
+    #   run: dotnet build ./BlazugDemo --configuration Release --no-restore
+ 
+    # - name: Pack
+    #   run: dotnet pack .\BlazugDemo\ --configuration Release --no-restore
+
+    # - name: Push package to github registry
+    #   run: dotnet nuget push ./ColumnDevice/bin/Release/*.nupkg --skip-duplicate --no-symbols true --api-key ${{ secrets.ColumnDevicePackageToken }}
+
+    - name: Release notes and files
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "./BlazugDemo/wwwroot/blazug/blazug.js"
+        tag: ${{ env.GITVERSION_MAJORMINORPATCH }}
+        bodyFile: "release-notes.md"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        # prerelease: ${{ env.GitVersion_BranchName != 'master' }}
+        # draft: ${{ contains(env.GitVersion_BranchName, 'feature') }}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Nuget package
+        path: "./BlazugDemo/wwwroot/blazug/blazug.js"
+
+
