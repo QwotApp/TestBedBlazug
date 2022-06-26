@@ -41,5 +41,5 @@ git push
 
 git checkout main
 
-Write-Host Please check github action to see if everything is fine.`n -ForegroundColor Cyan
+Write-Host `nPlease check github action to see if everything is fine.`n -ForegroundColor Cyan
 

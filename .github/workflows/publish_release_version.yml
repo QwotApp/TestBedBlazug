@@ -22,6 +22,11 @@ jobs:
         echo "CURRENTVERSION=$containerName" >> $Env:CURRENTVERSION
         Write-Host $currentVersion
 
+    - name: Env List
+      run: |
+        printenv 
+        env 
+        
     - name: Release notes and files
       uses: ncipollo/release-action@v1
       with:

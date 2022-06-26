@@ -78,3 +78,5 @@ $htmlFile.replace($previousVersionStrU,$versionStrU) | Out-File -FilePath $htmlF
 
 # Set git tag.
 git tag $version
+
+Write-Host `nPlease check changes and commit them to main branch before publishing release.`n -ForegroundColor Cyan
