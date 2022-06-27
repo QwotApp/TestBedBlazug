@@ -64,9 +64,9 @@ if($jsCount -ne 2)
     return
 }
 
-if($htmlCount -ne 4)
+if($htmlCount -ne 7)
 {
-    Write-Host `n`'$versionStrL`' has been found $htmlCount times in $htmlFileName but it should appear 4 times`n -ForegroundColor Magenta
+    Write-Host `n`'$versionStrL`' has been found $htmlCount times in $htmlFileName but it should appear 7 times`n -ForegroundColor Magenta
     return
 }
 
