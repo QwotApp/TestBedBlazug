@@ -35,7 +35,7 @@
     justify-content: center;
 }
 
-.blazug>div:first-child>div {
+.blazug>div:first-child>button {
     font-size: calc(640px/30);
     line-height: 1em;
     background: rgba(0, 0, 0, 0.8);
@@ -48,12 +48,12 @@
 }
 
 @media screen and (max-width: 640px) {
-    .blazug>div:first-child>div {
+    .blazug>div:first-child>button {
         font-size: 1em;
     }
 }
 
-.blazug>div:first-child>div>svg {
+.blazug>div:first-child>button>svg {
     font-size: 1em;
     line-height: 1em;
     width: 2.5em;
@@ -64,19 +64,19 @@
     transition-timing-function: ease-out;
 }
 
-.blazug>div:first-child>div:hover>svg {
+.blazug>div:first-child>button:hover>svg {
     transform: scale(1.2);
 }
 
-.blazug>div:first-child>div:not(hover)>svg {
+.blazug>div:first-child>button:not(hover)>svg {
     transform: scale(1.0);
 }
 
-.blazug>div:first-child>div>svg>path {
+.blazug>div:first-child>button>svg>path {
     fill: orangered;
 }
 
-.blazug>div:first-child>div:active>svg>path {
+.blazug>div:first-child>button:active>svg>path {
     fill-opacity: 0.6;
 }
 

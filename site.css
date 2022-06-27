@@ -1,30 +1,15 @@
-/* prims.js background */
 
-:not(pre)>code[class*=language-],
-pre[class*=language-] {
-    background: #2a2f34 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-.header-quote {
-    display: block;
-    margin-block-start: 2em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
 
 :root {
     --blue: #0d6efd;
     --indigo: #6610f2;
     --purple: #6f42c1;
-    --pink: #d63384;
+    --pink: #f92672;
     --red: orangered;
     --orange: #fd7e14;
-    --yellow: #ffc107;
+    --yellow: #736d3a;
     --green: #198754;
-    --teal: #adff2f;
+    --teal: #557319;
     --cyan: #0dcaf0;
     --white: #fff;
     --gray: #6c757d;
@@ -43,15 +28,19 @@ pre[class*=language-] {
     --gap: 2rem;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
      :root {
         --body-bg: #212529;
         --body-color: #dee2e6;
         --accent-bg: #2a2f34;
         --link-color: var(--blue-300);
         --border-color: rgba(255, 255, 255, 0.1);
+    --yellow: #e6db74;
+    --teal: #a6e22e;
+    --pink: #f92672;
+    --red: orangered;
     }
-}
+} */
 
 *,
 *::before,
@@ -111,9 +100,17 @@ h4 {
 }
 
 p {
+  font-size: 1rem;
+
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
+span {
+  font-style: italic;
+  color: #7a7a7a;
+}
+
 
 blockquote {
   position: relative;
@@ -149,14 +146,31 @@ blockquote:last-child {
 code,
 pre {
   font-family: "SFMono-Regular", Menlo, "Courier New", monospace;
-  font-size: 95%;
+  font-size: 1em;
 }
 
 code {
-  font-size: 85%;
+  font-size: 1.1em;
   color: var(--pink);
   border-radius: 0.2rem;
 }
+
+code[class="c-tag"] {
+  font-size: 1.1em;
+  color: var(--pink);
+}
+
+code[class="c-attribut"] {
+  font-size: 1.1em;
+  color: var(--teal);
+}
+
+code[class="c-value"] {
+  font-size: 1.1em;
+  color: var(--yellow);
+}
+
+
 
 pre {
   display: block;
@@ -289,6 +303,7 @@ pre code {
     display: flex;
     flex-direction: column;
     gap: var(--gap);
+    margin-bottom: 0;
 }
 
 @media (min-width: 768px) {
@@ -344,4 +359,31 @@ h2 {
 .quick-links li {
   display: inline;
   padding-inline-start: 0;
+}
+
+
+/* prims.js background */
+
+:not(pre)>code[class*=language-],
+pre[class*=language-] {
+    background: #2a2f34 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.header-quote {
+    display: block;
+    margin-block-start: 2em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+/* code[class="language"]{
+  font-size: 2em;
+
+} */
+
+main > section > section{
+  margin-bottom: 3rem;
 }

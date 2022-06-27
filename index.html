@@ -1,27 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blazug.JS</title>
 
-    <title>
-        Blazug.JS
-    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <meta name="description" content="Standards for developing consistent, flexible, and sustainable HTML and CSS">
+    <meta name="description" content="Standards for developing consistent, flexible, and sustainable HTML and CSS" />
     <!-- <link rel="canonical" href="https://codeguide.co"> -->
 
-    <link rel="stylesheet" href="./site.css">
+    <link rel="stylesheet" href="./site.css" />
     <link rel="stylesheet" href="./prism.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.css" />
 
-    <link href="./favicon.ico" rel="icon" type="image/x-icon">
-    <link href="./favicon.svg" rel="icon" type="image/svg+xml">
+    <link href="./favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="./favicon.svg" rel="icon" type="image/svg+xml" />
 
     <!-- <meta property="og:image" content="https://raw.githubusercontent.com/mdo/code-guide/gh-pages/code-guide-social.png">
     <meta property="og:title" content="Code Guide">
@@ -34,219 +31,452 @@
     <meta name="twitter:title" content="Code Guide">
     <meta name="twitter:description" content="Standards for developing consistent, flexible, and sustainable HTML and CSS.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/mdo/code-guide/gh-pages/code-guide-social.png"> -->
+  </head>
 
-</head>
-
-<body>
-
-    
-
+  <body>
     <script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.js" startup="normal"></script>
-   
 
     <header class="cg-masthead">
-        <div class="container">
-            <h1 class="cg-masthead-title">
-                Blazug<strong style="font-size: 8rem;color:var(--red)">.</strong>Js
-            </h1>
+      <div class="container">
+        <h1 class="cg-masthead-title">Blazug<strong style="font-size: 8rem; color: var(--red)">.</strong>Js</h1>
 
-            <blockquote class="header-quote">
-                (Click the bug at the bottom of the page)
-            </blockquote>
+        <blockquote class="header-quote">(Click the bug at the bottom of the page)</blockquote>
 
-            <p class="cg-masthead-subtitle">
-                Two lines to display the browser's console logs inside your web page.
-            </p>
+        <p class="cg-masthead-subtitle">Two lines to display the browser's console logs inside your web page.</p>
 
-
-            <p>
-                Created by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> &middot; <a href="https://github.com/qwotapp/blazugjs/">GitHub repo</a>
-            </p>
-
-
-
-        </div>
+        <p>Created by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> &middot; <a href="https://github.com/QwotApp/TestBedBlazug">GitHub repo</a></p>
+      </div>
     </header>
 
-
     <main class="container content">
+      
+      <!-- What is blazug.js ? -->
+      <section>
 
         <h2 id="golden-rule">What is blazug.js ?</h2>
-
-        <p>Blazug is lightweight and simple to use vanilla js library that displays the browser console inside an html page. It is especially helpfull for debugging on mobile website. Blazug also provides some controls to quickly display some text or trigger
-            an action for testing purpose.
+        
+        <br>
+        
+        <p>
+          Blazug is a lightweight and simple-to-use vanilla js library that displays the browser console inside an HTML page. It is helpful to debug mobile website. Blazug also provides some controls to quickly display some text or
+          trigger action for testing purposes.
         </p>
 
-        <p>Blazug integrates seamlessly inside Blazor webassembly application. For more information about the nuget package, go to <a href="https://stackoverflow.com/questions/6771258/what-does-meta-http-equiv-x-ua-compatible-content-ie-edge-do">BlazugLib on gihub</a>.</p>
+        <p>Blazug also integrates seamlessly inside Blazor application.</p>
+        
+      </section>
+
+      <!-- Table of content -->
+      <section id="id-toc">
 
         <h2 id="toc">Table of contents</h2>
-
+        
+        <br><br>
 
         <section class="content-responsive">
-            <div>
-                <h3 id="html"><a href="#html">Introduction</a></h3>
 
-                <ul>
-                    <li><a href="#html-syntax">Install</a></li>
-                    <li><a href="#html-syntax">Versioning</a></li>
-                </ul>
-            </div>
+          <!-- Install -->
+          <div>
+            
+            <h4><a href="#id-install">Install</a></h4>
+
+            <ul>
+
+              <li><a href="#id-twoLines">Two lines</a></li>
+
+              <li><a href="#id-displayMode">Display Mode</a></li>
+
+              <li><a href="#id-clipBoard">Clipboard</a></li>
+
+              <li><a href="#id-downloadLogs">Download Logs</a></li>
 
 
-            <div>
-                <h3 id="css"><a href="#css">Controls</a></h3>
+            </ul>
 
-                <ul>
-                    <li><a href="#css-syntax">Display Text</a></li>
-                    <li><a href="#declaration-order">Button</a></li>
-                    <li><a href="#colors">Switcher</a></li>
-                    <li><a href="#logical-properties">Radio Buttons</a></li>
-                </ul>
+          </div>
 
-            </div>
+          <!-- Controls -->
+          <div>
 
-            <div>
-                <h3 id="css"><a href="#css">Controls</a></h3>
+            <h4><a href="#id-controls">Controls</a></h4>
 
-                <ul>
-                    <li><a href="#css-syntax">Display Text</a></li>
-                    <li><a href="#declaration-order">Button</a></li>
-                    <li><a href="#colors">Switcher</a></li>
-                    <li><a href="#logical-properties">Radio Buttons</a></li>
-                </ul>
+            <ul>
 
-            </div>
+              <li><a href="#id-displayText">Display Text</a></li>
+
+              <li><a href="#id-button">Button</a></li>
+
+              <li><a href="#id-switch">Switch</a></li>
+
+              <li><a href="#id-radio">Radio Buttons</a></li>
+
+            </ul>
+
+          </div>
+
+          <!-- Blazor -->
+          <div>
+
+            <h4><a href="#css">Controls</a></h4>
+
+            <ul>
+
+              <li><a href="#css-syntax">Display Text</a></li>
+
+              <li><a href="#declaration-order">Button</a></li>
+
+              <li><a href="#colors">Switcher</a></li>
+
+              <li><a href="#logical-properties">Radio Buttons</a></li>
+
+            </ul>
+
+          </div>
 
         </section>
 
+      </section>
 
 
+      <!-- Install -->
+      <section id="id-install">
+        <h2>Install</h2>
+        
+        <br><br>
 
-        <h2 id="html">Install</h2>
+        <!-- Two Lines -->
+        <section id="id-twoLines">
+          <div>
+              <h4>Two lines</h4>
 
-        <div>
-            <h3 id="html-syntax">Two lines</h3>
-
-            <ol>
+              <ol>
                 <li>
-                    <p>Insert blazug stylesheet <strong style="color:var(--pink)">&lt;link rel='stylesheet' href='./blazug.css'/&gt;</strong> any where inside your html header</p>
+                    <p>Insert blazug stylesheet anywhere inside your HTML &lt;head&gt;<br /><code class="c-value">&lt;link rel='stylesheet' href="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.css"/&gt;</code></p>
                 </li>
 
                 <li>
-                    <p>Insert blazug script <strong style="color:var(--pink)">&lt;script src="./blazug.js"&gt&lt;/script&gt;</strong>at the beginning of the body.</p>
+                    <p>Insert blazug script at the beginning of the HTML &lt;body&gt;<br /><code class="c-value">&lt;script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.js"&gt&lt;/script&gt;</code></p>
+                </li>
+              </ol>
+
+              <blockquote>Then add some console.log() and click on the bug to watch the console.</blockquote>
+
+              <br>
+
+          </div>
+
+          <pre class="language-markup"><code><!--
+      <!doctype html>
+      <html lang="en">
+      <head>
+          ...
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.css"/>
+          ...
+      </head>
+      <body>
+          <script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.js"></script>
+          ...
+          <script>
+          // play with blazug logs.
+          console.log("👋 from the console.");
+          console.warn("take care.");
+          console.error("something wrong happened. 🤬");
+          console.debugging = true;
+          console.debug("let's de-🐛 it with blazug !!!");
+          // intentionaly raise an exception
+          unknowfunction();
+          </script>
+      </body>
+      </html>
+          --></code></pre>
+
+          
+
+        </section>
+
+        <!-- Display Mode   -->
+        <section id="id-displayMode">
+
+          <div>
+
+            <h4>Display mode</h4>
+            <br>
+
+            <p>To change the display mode at startup, assign one of the following values to the <code class="c-attribut">startup</code> attribute of the blazug's script tag.</p>
+
+            <ol>
+
+                <li>
+
+                <p><code class="c-value">normal</code>: Show only the bug button.<span> (default behavior)</span></p>
+
+                </li>
+
+                <li>
+
+                <p><code class="c-value">hidden</code>: Hidden at startup, nothing displayed.</p>
+
+                </li>
+
+                <li>
+
+                <p><code class="c-value">console</code>: The console window is visible at startup.</p>
+
+                </li>
+
+                <li>
+
+                <p><code class="c-value">controls</code>: The controls window is visible at startup.</p>
+
                 </li>
 
             </ol>
 
-            <blockquote>
-                Then add some console.log() and click on the bug button to watch the console.
-            </blockquote>
+          </div>
 
-        </div>
+          <pre class="language-markup"><code><!--
+      <script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.js" startup="console"></script>
+          --></code></pre>
+
+          <br>
+
+          <p>The display mode can also be changed dynamically by calling the function blazug.display(<span>mode</span>)</p>
+
+          <pre class="language-javascript">
+            <code> 
+      blazug.display("controls");</code>
+          </pre>
+
+          
+
+        </section>
+        
+        <!-- Clipboard   -->
+        <section id="id-clipBoard">
+
+          <div>
+
+            <h4>Copy Log to clipboard</h4>
+            <br>
+
+            <p>Click on the log inside the console window to copy it to clipboard.</p>
+
+          </div>
+
+        </section>
+        
+        <!-- Download logs   -->
+        <section id="id-downloadLogs">
+
+          <div>
+
+            <h4>Download Logs</h4>
+            <br>
+
+          <p>To download the logs call the function blazug.downloadLogs()</p>
+
+          <pre class="language-javascript">
+            <code> 
+              blazug.downloadLogs();</code>
+          </pre>
+
+        </section>
+
+      </section>
+
+      <!-- Controls -->
+      <section id="id-controls">
+
+        <h2 >Controls</h2>
+
+        <br><br>
+       
+        <!-- Display Text -->
+        <section id="id-displayText">
+
+          <div>
+              <h4>Display Text</h4>
+              <br>
+
+              <p>blazug.<code class="c-value">displayText</code>(<code class="c-attribut">"controlId"</code>,<code class="c-attribut">"text"</code>,<code class="c-attribut">"minsize"</code>) show a text inside the controls view. It can be called multiple time with the same controlId to update the text</p>
+
+              <ol>
+
+                <li><p><code class="c-attribut">controlId</code><span> - string,required </span>: unique controlId, will be displayed as a tip over the text control.</p></li>
+
+                <li><p><code class="c-attribut">text</code><span> - string,required </span>: the text string to be displayed/updated.</p></li>
+
+                <li><p><code class="c-attribut">minsize</code><span> - string,optional </span>: minimum width of the control, can be <code class="c-value">content</code> <span>(default)</span>, <code class="c-value">small</code>, <code class="c-value">medium</code>, <code class="c-value"> large</code>, <code class="c-value"> max</code>.</p></li>
+
+            </ol>
+            
+          </div>
+
+          <pre class="language-javascript">
+            <code> 
+      var i = 0;
+      blazug.displayText("counter⏱️", ++i);
+      blazug.displayText("counter⏱️", ++i);
+
+      blazug.displayText("another", "hello world !","max");
+            </code> 
+        </pre>
+
+          
+
+        </section>
+
+        <!-- Button -->
+        <section id="id-button">
+
+          <div>
+              <h4>Button</h4>
+              <br>
+
+              <p>blazug.<code class="c-value">createButton</code>(<code class="c-attribut">"controlId"</code>,<code class="c-attribut">"text"</code>,<code class="c-attribut">"minsize"</code>,<code class="c-attribut">callback</code>) display a button that triggers a callback when pressed.</p>
+
+              <ol>
+
+                <li><p><code class="c-attribut">controlId</code><span> - string,required </span>: unique controlId, will be displayed as a tip over the text control.</p></li>
+
+                <li><p><code class="c-attribut">text</code><span> - string,required </span>: the text string to be displayed/updated.</p></li>
+
+                <li><p><code class="c-attribut">minsize</code><span> - string,optional </span>: minimum width of the control, can be <code class="c-value">content</code> <span>(default)</span>, <code class="c-value">small</code>, <code class="c-value">medium</code>, <code class="c-value"> large</code>, <code class="c-value"> max</code>.</p></li>
+
+                <li><p><code class="c-attribut">callback</code><span> - function,required </span>: function called when the button is clicked.</p></li>
+            </ol>
+            
+          </div>
+
+          <pre class="language-javascript">
+            <code> 
+      blazug.createButton("logs", "Download", "content", (controlId, element) => {
+        blazug.downloadLogs();
+      });</code> 
+        </pre>
+
+        </section>
+
+        <!-- Switch -->
+        <section id="id-switch">
+
+          <div>
+              <h4>Switch</h4>
+              <br>
+
+              <p>blazug.<code class="c-value">createSwitch</code>(<code class="c-attribut">"controlId"</code>,<code class="c-attribut">"textOn"</code>,<code class="c-attribut">"textOff"</code>,<code class="c-attribut">initialState</code>,<code class="c-attribut">callback</code>) display a switch that triggers a callback when state has changed.</p>
+
+              <ol>
+
+                <li><p><code class="c-attribut">controlId</code><span> - string,required </span>: unique controlId, will be displayed as a tip over the text control.</p></li>
+
+                <li><p><code class="c-attribut">textOn</code><span> - string,optional </span>: text label when true. <span>default is On.</span></p></li>
+
+                <li><p><code class="c-attribut">textOff</code><span> - string,optional </span>: text label when false. <span>default is Off.</span></p></li>
+
+                <li><p><code class="c-attribut">initial</code><span> - boolean,optional </span>: initial state<span>default is false.</span></p></li>
+
+                <li><p><code class="c-attribut">callback</code><span> - function,required </span>: function called when the state has changed.</p></li>
+            </ol>
+            
+          </div>
+
+          <pre class="language-javascript">
+            <code> 
+      blazug.createSwitch("toggle", "True", "False", true, "content", (controlId, state, text, element) => {
+        alert("switch '" + controlId + "' state is '" + text + "' (" + state + ").");
+      });</code> 
+        </pre>
+
+          
+
+        </section>
+
+        <!-- Radio -->
+        <section id="id-radio">
+
+          <div>
+              <h4>Radio Buttons</h4>
+              <br>
+
+              <p>blazug.<code class="c-value">createRadio</code>(<code class="c-attribut">"controlId"</code>,<code class="c-attribut">"textOn"</code>,<code class="c-attribut">"textOff"</code>,<code class="c-attribut">initialState</code>,<code class="c-attribut">callback</code>) display a switch that triggers a callback when state has changed.</p>
+
+              <ol>
+
+                <li><p><code class="c-attribut">controlId</code><span> - string,required </span>: unique controlId, will be displayed as a tip over the text control.</p></li>
+
+                <li><p><code class="c-attribut">buttonsText</code><span> - array,required </span>: array of buttons text.</p></li>
+
+                <li><p><code class="c-attribut">initial</code><span> - boolean,optional </span>: initial index of active button.<span>default is 0.</span></p></li>
+
+                <li><p><code class="c-attribut">callback</code><span> - function,required </span>: function called when the state has changed.</p></li>
+            </ol>
+            
+          </div>
+
+          <pre class="language-javascript">
+            <code> 
+        blazug.createRadio("theme", ["Light", "Dark", "Black"], 1, (controlId, index, text, element) => {
+          alert("radio '" + controlId + "' state is '" + text + "' (index: " + index + ").");
+        });</code> 
+        </pre>
+
+          
+
+        </section>
 
 
-
-
-        <pre class="language-markup"><code><!--
-  <!doctype html>
-  <html lang="en">
-    <head>
-      ...
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.css"/>
-      ...
-    </head>
-    <body>
-      <script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.1/blazug.js"></script>
-      ...
-      <script>
-         // play with blazug logs.
-        console.log("👋 from the console.");
-        console.warn("take care.");
-        console.error("something wrong happened. 🤬");
-        console.debugging = true;
-        console.debug("let's de-🐛 it with blazug !!!");
-        // intentionaly raise an exception
-        unknowfunction();
-      </script>
-    </body>
-  </html>
-            --></code></pre>
-
-
-
-
-
-        <div>
-            <h3 id="html5-doctype">HTML5 doctype</h3>
-
-            <p>Enforce <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode">standards mode</a> and more consistent rendering in every browser possible with this simple doctype at the beginning of every HTML page. In
-                keeping with the suggested syntax, keep it lowercase.</p>
-
-        </div>
-
+      </section>
 
 
       
+      <footer class="footer">
+        <p>Blazug is open sourced by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> under MIT license.</p>
 
-
-        <footer class="footer">
-            <p>
-                Blazug is open sourced by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> under MIT license.
-            </p>
-
-            <ul class="quick-links">
-                <li class="follow-btn">
-                    <a href="https://twitter.com/icetruckkiller" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @icetruckkiller</a>
-                </li>
-                <!-- <li class="tweet-btn">
+        <ul class="quick-links">
+          <li class="follow-btn">
+            <a href="https://twitter.com/icetruckkiller" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true">Follow @icetruckkiller</a>
+          </li>
+          <!-- <li class="tweet-btn">
                   <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://xxxxxx.co" data-count="horizontal" data-via="icetruckkiller">Tweet</a>
               </li> -->
-            </ul>
+        </ul>
 
-            <p>
-                Webpage theme has been forked from <a href="https://github.com/mdo/code-guide/">codeguide.co</a>.
-            </p>
-
-
-
-        </footer>
-
+        <p>Webpage theme has been forked from <a href="https://github.com/mdo/code-guide/">codeguide.co</a>.</p>
+      </footer>
     </main>
-
 
     <script src="./prism.js"></script>
 
     <script>
-        // play with blazug logs.
-        console.log("👋 from the console.");
-        console.warn("take care.");
-        console.error("something wrong happened. 🤬");
-        console.debugging = true;
-        console.debug("let's de-🐛 it with blazug !!!");
-        // intentionaly raise an exception
-        unknowfunction();
+      // play with blazug logs.
+      console.log("👋 from the console.");
+      console.warn("take care.");
+      console.error("something wrong happened. 🤬");
+      console.debugging = true;
+      console.debug("let's de-🐛 it with blazug !!!");
+      // intentionaly raise an exception
+      unknowfunction();
     </script>
 
     <script>
-        // play with blazug controls.
+      // play with blazug controls.
 
-        var i = 0;
-        blazug.displayText("counter⏱️", i, "small");
-        setInterval(() => blazug.displayText("counter⏱️", ++i), 2500);
+      var i = 0;
+      blazug.displayText("counter⏱️", i, "small");
+      setInterval(() => blazug.displayText("counter⏱️", ++i), 2500);
 
-        blazug.createButton("logs", "Download", "content", (controlId, element) => {
-            blazug.downloadLogs();
-        });
+      blazug.createButton("logs", "Download", (controlId, element) => {
+        blazug.downloadLogs();
+      });
 
-        blazug.createSwitch("toggle",  "True", "False", true, "content", (controlId, state, text, element) => {
-            alert("switch '" + controlId + "' state is '" + text + "' (" + state +").")
-        });
-        
-        blazug.createRadio("theme", ["Light","Dark","Black"], 1, "content", (controlId, index, text, element) => {
-            alert("radio '" + controlId + "' state is '" + text + "' (index: " + index +").")
-        });
-    </script> 
+      blazug.createSwitch("toggle", "True", "False", true, (controlId, state, text, element) => {
+        alert("switch '" + controlId + "' state is '" + text + "' (" + state + ").");
+      });
 
-</body>
-
+      blazug.createRadio("theme", ["Light", "Dark", "Black"], 1, (controlId, index, text, element) => {
+        alert("radio '" + controlId + "' state is '" + text + "' (index: " + index + ").");
+      });
+    </script>
+  </body>
 </html>
