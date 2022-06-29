@@ -155,6 +155,7 @@
 
 .blazug-control>.blazug-control-item {
     background-color: white;
+    color: black;
     font-size: 1.3em;
     line-height: 1em;
     padding: 0;
@@ -211,6 +212,9 @@
 
 /* Text */
 .blazug-text {
+    font-style:normal;
+    background-color: transparent;
+    /* color: black; */
     font-size: 1em;
     width: 100%;
     height: 100%;
@@ -270,6 +274,8 @@ input:checked+.blazug-slider:before {
 }
 
 .blazug-switch-label {
+    font-style:normal;
+    color:black;
     font-size: 1em;
     line-height: 1em;
     padding: 0.0em 0.2em 0.0em 0.2em;
@@ -283,6 +289,7 @@ input:checked+.blazug-slider:before {
 
 .blazug-radio>input+label {
     background: white;
+    color: black;
 }
 
 .blazug-radio>input:checked+label {
@@ -308,6 +315,7 @@ input:checked+.blazug-slider:before {
 }
 
 .blazug-radio>input+label {
+    font-style:normal;
     font-size: 1em;
     line-height: 1em;
     margin-bottom: 0;
@@ -337,6 +345,7 @@ input:checked+.blazug-slider:before {
 /* button */
 
 .blazog-button {
+    font-style:normal;
     font-size: 1em;
     line-height: 1em;
     margin: 0;

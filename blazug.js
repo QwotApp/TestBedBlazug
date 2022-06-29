@@ -512,6 +512,11 @@
       log = log.stack;
     }
 
+    if(typeof log != "string")
+    {
+      log = JSON.stringify(log);
+    }
+
     let multiLineLog = log.replace(/[\r\n\x0B\x0C\u0085\u2028\u2029]+/g, "<br>");
 
     let html = `<div loglevel="${level}"><span></span><span>${multiLineLog}</span></div>`;
