@@ -42,7 +42,7 @@
     }
 } */
 
-html[data-theme='dark'] {
+body[data-theme='dark'] {
   --body-bg: #212529;
   --body-color: #dee2e6;
   --accent-bg: #2a2f34;
@@ -52,9 +52,11 @@ html[data-theme='dark'] {
   --teal: #a6e22e;
   --pink: #f92672;
   --red: orangered;
+  --masthead-bg: var(--accent-bg);
+
 }
 
-html[data-theme='black'] {
+body[data-theme='black'] {
   --body-bg: #000000;
   --body-color: #dee2e6;
   --accent-bg: #101011;
@@ -64,6 +66,7 @@ html[data-theme='black'] {
   --teal: #a6e22e;
   --pink: #f92672;
   --red: orangered;
+  --masthead-bg: var(--accent-bg);
 }
 
 
@@ -183,16 +186,19 @@ code {
 code[class="c-tag"] {
   font-size: 1.1em;
   color: var(--pink);
+  word-break: break-all;
 }
 
 code[class="c-attribut"] {
   font-size: 1.1em;
   color: var(--teal);
+  word-break: break-all;
 }
 
 code[class="c-value"] {
   font-size: 1.1em;
   color: var(--yellow);
+  word-break: break-all;
 }
 
 

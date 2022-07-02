@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme='black'>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,7 +33,7 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/mdo/code-guide/gh-pages/code-guide-social.png"> -->
   </head>
 
-  <body >
+  <body data-theme="dark">
     <script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.3/blazug.js" startup="normal"></script>
 
     <header class="cg-masthead">
@@ -477,8 +477,8 @@
       blazug.createRadio("theme", ["Light", "Dark", "Black"], 1, (controlId, index, text, element) => {
         //alert("radio '" + controlId + "' state is '" + text + "' (index: " + index + ").");
         var theme = text.toLowerCase();
-        var html = document.querySelector("html");
-        html.setAttribute("data-theme",theme);
+        var body = document.querySelector("body");
+        body.setAttribute("data-theme",theme);
       });
     </script>
 

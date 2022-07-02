@@ -4,7 +4,7 @@
 
 $currentBranch = git rev-parse --abbrev-ref HEAD
 
-Write-Host `n$currentBranch `n
+#Write-Host `n$currentBranch `n
 
 if($currentBranch -ne "main")
 {
