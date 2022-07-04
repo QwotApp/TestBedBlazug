@@ -376,7 +376,7 @@
 
           if (_dotNetHelper != null) {
             try {
-              await _dotNetHelper.invokeMethodAsync("SwitchClicked", controlId, radioIndex);
+              await _dotNetHelper.invokeMethodAsync("RadioClicked", controlId, radioIndex);
             } catch (error) {
               console.warn(error);
             }

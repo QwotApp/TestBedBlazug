@@ -36,13 +36,13 @@
   <body data-theme="dark">
     <script src="https://cdn.jsdelivr.net/gh/QwotApp/TestBedBlazug@2.2.4/blazug.js" startup="normal"></script>
 
-    <header class="cg-masthead">
+    <header class="site-header">
       <div class="container">
-        <h1 class="cg-masthead-title">Blazug<strong style="font-size: 8rem; color: var(--red)">.</strong>Js</h1>
+        <h1 class="site-header-title">Blazug<strong style="font-size: 8rem; color: var(--red)">.</strong>Js</h1>
 
         <blockquote class="header-quote">(Click the bug at the bottom of the page)</blockquote>
 
-        <p class="cg-masthead-subtitle">Two lines to display the browser's console logs inside your web page.</p>
+        <p class="site-header-subtitle">Two lines to display the browser's console logs inside your web page.</p>
 
         <p>Created by <a href="https://twitter.com/icetruckkiller">@icetruckkiller</a> &middot; <a href="https://github.com/QwotApp/TestBedBlazug">GitHub repo</a></p>
       </div>
@@ -277,7 +277,7 @@
 
           <pre class="language-javascript">
             <code> 
-              blazug.downloadLogs();</code>
+      blazug.downloadLogs();</code>
           </pre>
 
         </section>
@@ -318,8 +318,7 @@
       blazug.displayText("counter⏱️", ++i);
       blazug.displayText("counter⏱️", ++i);
 
-      blazug.displayText("another", "hello world !","max");
-            </code> 
+      blazug.displayText("another", "hello world !","max");</code> 
         </pre>
 
           
@@ -462,18 +461,25 @@
     <script>
       // play with blazug controls.
 
+      // display version
+      blazug.displayText("version", blazug.getVersion());
+
+      // display counter
       var i = 0;
       blazug.displayText("counter⏱️", i, "small");
       setInterval(() => blazug.displayText("counter⏱️", ++i), 2500);
 
+      // create button to download logs
       blazug.createButton("logs", "Download", (controlId, element) => {
         blazug.downloadLogs();
       });
 
+      // switch
       blazug.createSwitch("toggle", "True", "False", true, (controlId, state, text, element) => {
         alert("switch '" + controlId + "' state is '" + text + "' (" + state + ").");
       });
 
+      // radio button to change theme
       blazug.createRadio("theme", ["Light", "Dark", "Black"], 1, (controlId, index, text, element) => {
         //alert("radio '" + controlId + "' state is '" + text + "' (index: " + index + ").");
         var theme = text.toLowerCase();
